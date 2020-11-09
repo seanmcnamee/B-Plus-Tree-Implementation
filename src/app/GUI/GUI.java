@@ -22,7 +22,7 @@ public class GUI implements ComponentListener, ActionListener {
     private GUIPage currentPage;
     private GUIPage[] pages;
 
-    private final String NAME = "Database";
+    private final String NAME = "B+ Tree";
     private final int WIDTH_AT_SCALE_1 = 790;
     private final int HEIGHT_AT_SCALE_1 = 590;
     private double gameScale = 1;

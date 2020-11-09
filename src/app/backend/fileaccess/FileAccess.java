@@ -1,4 +1,4 @@
-package app.backend;
+package app.backend.fileaccess;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -13,7 +13,7 @@ public class FileAccess {
         this.fileIn = getFile(fileName);
     }
 
-    public BufferedReader getFile(String fileName) {
+    private BufferedReader getFile(String fileName) {
         BufferedReader fileIn = null;
         try {
             fileIn = new BufferedReader(new FileReader(fileName));

@@ -9,8 +9,8 @@ import app.GUI.GUI;
 import app.GUI.Pages.AddDataMenuPage;
 import app.GUI.Pages.MenuPage;
 import app.GUI.Pages.ViewDataMenuPage;
-import app.backend.FileAccess;
-import app.backend.KeyValue;
+import app.backend.fileaccess.FileAccess;
+import app.backend.fileaccess.KeyValue;
 
 public class App {
     public static int MENU = 0, ADD_DATA = 1, VIEW_DATA = 2;
