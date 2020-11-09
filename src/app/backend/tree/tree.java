@@ -6,7 +6,8 @@ public class tree {
     private Node root;
 
     public void insert(KeyValue pair) {
-        //if (pair.getKey().compareTo(anotherString)
+        // if (pair.getKey().compareTo(anotherString)
+        // HI
     }
 
     public void delete(String key) {
