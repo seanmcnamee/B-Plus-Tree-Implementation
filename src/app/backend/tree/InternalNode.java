@@ -4,18 +4,11 @@ package app.backend.tree;
  * InternalNode
  */
 public class InternalNode extends Node {
+    private String[] keys;
 
+    //Call this with 4 to specifiy 4 keys, and a max of 5 children
     public InternalNode(int keyCount) {
-        super(keyCount);
+        this.keys = new String[keyCount];
     }
-
-    public InternalNode(int keyCount, String firstKey) {
-        super(keyCount);
-        addData(firstKey);
-    }
-
-    @Override
-    public String keyFromObject(Object o) {
-        return ((String) o);
-    }
+    
 }

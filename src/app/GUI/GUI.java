@@ -88,11 +88,12 @@ public class GUI implements ComponentListener, ActionListener {
             @Override
             public void windowClosing(WindowEvent e) {}
             public void windowOpened(WindowEvent e) {}
-            public void windowClosed(WindowEvent e) {}
+            public void windowClosed(WindowEvent e) {} 
             public void windowIconified(WindowEvent e) {}
             public void windowDeiconified(WindowEvent e) {}
             public void windowActivated(WindowEvent e) {}
             public void windowDeactivated(WindowEvent e) {}
+            
         });
     }
 
@@ -139,7 +140,7 @@ public class GUI implements ComponentListener, ActionListener {
         double excessHeight = frame.getContentPane().getHeight() - pixelHeight;
         double xStart = excessWidth / 2.0;
         double yStart = excessHeight / 2.0;
-
+// YO
         // Update each component in the page
         this.currentPage.setComponentSizeAndLocation(pixelWidth, pixelHeight, xStart, yStart);
     }

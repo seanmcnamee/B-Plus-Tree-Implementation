@@ -33,7 +33,7 @@ public class ViewDataMenuPage extends GUIPage {
 
             new VariableComponent(new JButton("Back"), .1, .95, .2, .1)
         };
-        this.setBackgroundAndTextOfComponentsInRange(components, 1, 6, Color.BLUE, Color.WHITE);
+        this.setBackgroundAndTextOfComponentsInRange(components, 1, 6, Color.RED, Color.WHITE);
         ((JLabel) components[0].component).setFont(new Font("Verdana", Font.PLAIN, 20));
         //((JLabel) components[0]).setVerticalTextPosition(AbstractButton.CENTER);
         //vB.component.setHorizontalTextPosition(AbstractButton.LEADING);
