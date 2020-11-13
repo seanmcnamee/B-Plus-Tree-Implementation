@@ -5,7 +5,7 @@ public abstract class Node {
     protected Node parent;
     protected Node childNode;
     protected Node nextSibling;
-    protected int topIndex = -1;
+    protected int memberCount = 0;
 
     public Node(int dataSize) {
         this.dataMembers = new Object[dataSize];
@@ -45,13 +45,14 @@ public abstract class Node {
 
     public void addData(Object data) {
         Object temp;
-        for (int i = binarySearch(0, topIndex, data); i <= topIndex+1; i++) {
+        for (int i = binarySearch(0, memberCount-1, data); i <= memberCount; i++) {
             temp = this.dataMembers[i];
             this.dataMembers[i] = data;
             data = temp;
         }
-        topIndex++;
+        memberCount++;
     }
+
     /**
      * Returns the index to add the new key.
      */
@@ -93,7 +94,23 @@ public abstract class Node {
     }
 
     public int getSize() {
-        return topIndex+1;
+        return memberCount;
+    }
+
+    public boolean isFull() {
+        return getSize() >= dataMembers.length;
+    }
+
+    public int getMid() {
+        return getSize()/2;
+    }
+
+    public Object[] arrayPartition(int start, int end) {
+        Object[] arr = new Object[end-start+1];
+        for (int i = start; i <= end; i++) {
+            arr[i-start] = this.dataMembers[i];
+        }
+        return arr;
     }
 
 

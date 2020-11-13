@@ -27,8 +27,8 @@ public class Tree {
 
     private InternalNode createInternalNode(KeyValue pair) {
         InternalNode newInternal = new InternalNode(keysPerInternalNode, pair.getKey());
-        LeafNode leafLeft = new LeafNode(keysPerLeafNode, pair);
-        LeafNode leafRight = new LeafNode(keysPerLeafNode);
+        LeafNode leafLeft = new LeafNode(keysPerLeafNode);
+        LeafNode leafRight = new LeafNode(keysPerLeafNode, pair);
         leafLeft.setParent(newInternal);
         leafRight.setParent(newInternal);
         newInternal.setChildNode(leafLeft);
@@ -39,14 +39,18 @@ public class Tree {
     private void recursiveInsert(Node current, KeyValue pair) {
         Node childNode = current.getChildNode();
         int childNum = 0;
-        while (childNum < current.getSize() && current.keyAtIndex(childNum).compareTo(pair.getKey()) < 0) {
+        while (childNum < current.getSize() && current.keyAtIndex(childNum).compareTo(pair.getKey()) <= 0) {
             childNum++;
             childNode = childNode.getNextSibling();
         }
         if (childNode.hasChildNode()) {
             recursiveInsert(childNode, pair);
         }   else {
-            childNode.addData(pair);
+            if (childNode.isFull()) {
+                split(childNode);
+            }   else {
+                childNode.addData(pair);
+            }
         }
     }
 
@@ -59,7 +63,11 @@ public class Tree {
     }
 
     private void split(Node base) {
+        int mid = base.getMid();
+        Object[] lower = base.arrayPartition(0, mid-1);
+        Object[] higher = base.arrayPartition(mid, base.getSize()-1);
 
+        //MOVE EM AROUND
     }
 
     private void fuse(Node base) {
