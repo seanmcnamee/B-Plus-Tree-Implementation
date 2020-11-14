@@ -13,7 +13,9 @@ import app.backend.fileaccess.FileAccess;
 import app.backend.fileaccess.KeyValue;
 
 public class App {
+
     public static int MENU = 0, ADD_DATA = 1, VIEW_DATA = 2, DELETE_DATA = 3;
+    
     public static void main(String[] args) throws Exception {
         GUI g = new GUI(new MenuPage(), new AddDataMenuPage(), new ViewDataMenuPage(), new DeletePage());
         System.out.println("Hello Java");
