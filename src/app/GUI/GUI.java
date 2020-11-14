@@ -86,7 +86,9 @@ public class GUI implements ComponentListener, ActionListener {
         frame.addComponentListener(this);
         frame.addWindowListener(new WindowListener() {
             @Override
-            public void windowClosing(WindowEvent e) {}
+            public void windowClosing(WindowEvent e) {
+                System.out.println("Test");
+            }
             public void windowOpened(WindowEvent e) {}
             public void windowClosed(WindowEvent e) {} 
             public void windowIconified(WindowEvent e) {}

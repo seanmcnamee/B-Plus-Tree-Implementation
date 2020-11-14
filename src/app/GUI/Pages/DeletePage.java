@@ -5,29 +5,30 @@ import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import app.App;
 import app.GUI.GUI;
 import app.GUI.GUIPage;
 
-public class MenuPage extends GUIPage {
+public class DeletePage extends GUIPage {
 
-    public MenuPage() {
+    public DeletePage() {
         super();
         this.panel.setBackground(Color.BLACK);
     }
+
 
     @Override
     public VariableComponent[] createComponents() {
         String newLine = ("Display the Next \n 10 Parts");
         VariableComponent[] components = {
-                new VariableComponent(new JLabel("Welcome to the System", SwingConstants.CENTER), .5, .1, 1, .2),
-                new VariableComponent(new JButton("Search by Part Number"), .13, .8, .23, .10), 
-                new VariableComponent(new JButton("Add a Part"), .38, .8, .23, .10),
-                new VariableComponent(new JButton("Delete a Part"), .63, .8, .23, .10),
-                new VariableComponent(new JButton("<html>" + newLine.replaceAll("\\n", "<br>") + "</html>"), .88, .8, .23, .10), // if you could make it so the text wraps inside the button, that would be great. -Louie
-                new VariableComponent(new JButton("Exit Program ->"), .88, .93, .23, .10) };
+                new VariableComponent(new JLabel("Deleting Part", SwingConstants.CENTER), .5, .1, 1, .2),
+                new VariableComponent(new JLabel("Enter Part Number: "), .13, .3, .23, .10), 
+                new VariableComponent(new JTextArea("Part Number"), .38, .8, .23, .10),
+                new VariableComponent(new JButton("Delete"), .63, .8, .23, .10),
+                new VariableComponent(new JButton("Back to Menu Page"), .88, .93, .23, .10)  };
 
 
         /*VariableComponent[] menuExitButton = {
@@ -35,9 +36,9 @@ public class MenuPage extends GUIPage {
         };
         */
         this.setBackgroundAndTextOfComponentsInRange(components, 0, 4, Color.BLUE, Color.WHITE);
-        this.setBackgroundAndTextOfComponentsInRange(components, 5, 5, Color.RED, Color.WHITE);
+        this.setBackgroundAndTextOfComponentsInRange(components, 3, 3, Color.RED, Color.WHITE);
         ((JLabel) components[0].component).setFont(new Font("Verdana", Font.PLAIN, 20));
-        
+        ((JLabel) components[1].component).setFont(new Font("Verdana", Font.PLAIN, 15));
         // ((JLabel) components[0]).setVerticalTextPosition(AbstractButton.CENTER);
         // vB.component.setHorizontalTextPosition(AbstractButton.LEADING);
         return components;
@@ -49,9 +50,9 @@ public class MenuPage extends GUIPage {
             prepareAndSwitchToPage(App.ADD_DATA, main);
         }   else if(obj.equals(this.components[2].component)) {
             prepareAndSwitchToPage(App.VIEW_DATA, main);
-        }   else if(obj.equals(this.components[3].component)) {
-            prepareAndSwitchToPage(App.DELETE_DATA, main);
+        } else if (obj.equals(this.components[this.components.length-1].component)) {
+            System.out.println("Back to menu page");
+            prepareAndSwitchToPage(App.MENU, main);
         }
     }
-
 }
