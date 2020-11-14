@@ -13,6 +13,7 @@ import app.GUI.GUIPage;
 
 public class MenuPage extends GUIPage {
 
+    //This is a test comment. Will it get deleted?
     public MenuPage() {
         super();
         this.panel.setBackground(Color.BLACK);
