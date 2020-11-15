@@ -18,5 +18,4 @@ public class LeafNode extends Node {
         if (o == null) return null;
         return ((KeyValue) o).getKey();
     }
-
 }
