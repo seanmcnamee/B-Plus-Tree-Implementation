@@ -48,11 +48,11 @@ public class DeletePage extends GUIPage {
 
     @Override
     public void actionPerformed(Object obj, GUI main) {
-        if (obj.equals(this.components[1].component)) {
+        /*if (obj.equals(this.components[1].component)) {
             prepareAndSwitchToPage(App.ADD_DATA, main);
-        }   else if(obj.equals(this.components[2].component)) {
-            prepareAndSwitchToPage(App.VIEW_DATA, main);
-        } else if (obj.equals(this.components[this.components.length-1].component)) {
+        }  // else if(obj.equals(this.components[2].component)) {
+            prepareAndSwitchToPage(App.VIEW_DATA, main);*/
+        if (obj.equals(this.components[this.components.length-1].component)) {
             System.out.println("Back to menu page");
             prepareAndSwitchToPage(App.MENU, main);
         }

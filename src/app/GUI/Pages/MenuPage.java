@@ -47,11 +47,13 @@ public class MenuPage extends GUIPage {
     @Override
     public void actionPerformed(Object obj, GUI main) {
         if (obj.equals(this.components[1].component)) {
-            prepareAndSwitchToPage(App.ADD_DATA, main);
-        }   else if(obj.equals(this.components[2].component)) {
             prepareAndSwitchToPage(App.VIEW_DATA, main);
+        }   else if(obj.equals(this.components[2].component)) {
+            prepareAndSwitchToPage(App.ADD_DATA, main);
         }   else if(obj.equals(this.components[3].component)) {
             prepareAndSwitchToPage(App.DELETE_DATA, main);
+        } else if(obj.equals(this.components[5].component)) {
+            System.exit(0);
         }
     }
 
