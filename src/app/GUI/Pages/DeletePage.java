@@ -25,9 +25,9 @@ public class DeletePage extends GUIPage {
         String newLine = ("Display the Next \n 10 Parts");
         VariableComponent[] components = {
                 new VariableComponent(new JLabel("Deleting Part", SwingConstants.CENTER), .5, .1, 1, .2),
-                new VariableComponent(new JLabel("Enter Part Number: "), .13, .3, .23, .10), 
-                new VariableComponent(new JTextArea("Part Number"), .38, .8, .23, .10),
-                new VariableComponent(new JButton("Delete"), .63, .8, .23, .10),
+                new VariableComponent(new JLabel("<HTML><U>Enter Part Number:</U></HTML>"), .13, .3, .23, .10), 
+                new VariableComponent(new JTextArea(), .38, .3, .23, .05),
+                new VariableComponent(new JButton("Delete"), .6, .3, .10, .05),
                 new VariableComponent(new JButton("Back to Menu Page"), .88, .93, .23, .10)  };
 
 
@@ -35,7 +35,9 @@ public class DeletePage extends GUIPage {
             new VariableComponent(new JButton("Exit ->"), .88, .93, .23, .10) 
         };
         */
-        this.setBackgroundAndTextOfComponentsInRange(components, 0, 4, Color.BLUE, Color.WHITE);
+        this.setBackgroundAndTextOfComponentsInRange(components, 0, 1, Color.BLUE, Color.WHITE);
+        this.setBackgroundAndTextOfComponentsInRange(components, 4, 4, Color.BLUE, Color.WHITE);
+        this.setBackgroundAndTextOfComponentsInRange(components, 2, 2, Color.WHITE, Color.BLACK);
         this.setBackgroundAndTextOfComponentsInRange(components, 3, 3, Color.RED, Color.WHITE);
         ((JLabel) components[0].component).setFont(new Font("Verdana", Font.PLAIN, 20));
         ((JLabel) components[1].component).setFont(new Font("Verdana", Font.PLAIN, 15));
