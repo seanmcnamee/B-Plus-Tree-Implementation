@@ -5,6 +5,7 @@ import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import app.App;
@@ -14,27 +15,27 @@ public class ViewDataMenuPage extends GUIPage {
     
     public ViewDataMenuPage() {
         super();
-        this.panel.setBackground(Color.GRAY);
+        this.panel.setBackground(Color.BLACK); //sets the color of the backgroud in the GUI 
     }
 
     @Override
     public VariableComponent[] createComponents() {
+        String newLine = ("Display the Next \n 10 Parts");
         VariableComponent[] components = 
         {
-            new VariableComponent(new JLabel("View the:", SwingConstants.CENTER), .5, .1, 1, .2),
-
-            new VariableComponent(new JButton("Items in an order"), .15, .4, 1/3.0, 1/4.0),
-            new VariableComponent(new JButton("Item price in an order"), .5, .4, 1/3.0, 1/4.0),
-            new VariableComponent(new JButton("Item price in a contract"), .85, .4, 1/3.0, 1/4.0),
-
-            new VariableComponent(new JButton("Orders for an item"), .15, .7, 1/3.0, 1/4.0),
-            new VariableComponent(new JButton("Contract and Supplier information"), .5, .7, 1/3.0, 1/4.0),
-            new VariableComponent(new JButton("Amount of an item still under contract"), .85, .7, 1/3.0, 1/4.0),
-
-            new VariableComponent(new JButton("Back"), .1, .95, .2, .1)
+            new VariableComponent(new JLabel("Part Search", SwingConstants.CENTER), .5, .1, 1, .2),
+            new VariableComponent(new JLabel("<HTML><U>Enter Part Number:</U></HTML>"), .13, .3, .23, .10),//Underlines the text 
+            new VariableComponent(new JTextArea(), .38, .3, .23, .05),
+            new VariableComponent(new JButton("Search"), .6, .3, .12, .05),
+            new VariableComponent(new JButton("<html>" + newLine.replaceAll("\\n", "<br>") + "</html>"), .6, .4, .17, .07),// displays text onto new line
+            new VariableComponent(new JButton("Back to Menu Page"), .88, .93, .23, .10)
         };
-        this.setBackgroundAndTextOfComponentsInRange(components, 1, 6, Color.RED, Color.WHITE);
+        this.setBackgroundAndTextOfComponentsInRange(components, 5, 5, Color.BLUE, Color.WHITE);
+        this.setBackgroundAndTextOfComponentsInRange(components, 0, 1, Color.BLUE, Color.WHITE);//changes color of text and backColor
+        this.setBackgroundAndTextOfComponentsInRange(components, 3, 3, Color.GREEN, Color.BLACK);
+        this.setBackgroundAndTextOfComponentsInRange(components, 4, 4, Color.RED, Color.BLACK);
         ((JLabel) components[0].component).setFont(new Font("Verdana", Font.PLAIN, 20));
+        ((JLabel) components[1].component).setFont(new Font("Verdana", Font.PLAIN, 15));//Changes font + size of text 
         //((JLabel) components[0]).setVerticalTextPosition(AbstractButton.CENTER);
         //vB.component.setHorizontalTextPosition(AbstractButton.LEADING);
         return components;
@@ -42,7 +43,7 @@ public class ViewDataMenuPage extends GUIPage {
 
     @Override
     public void actionPerformed(Object obj, GUI main) {
-        if (obj.equals(this.components[this.components.length-1].component)) {
+        if (obj.equals(this.components[this.components.length-1].component)) {// function that performs the actions when button is clicked
             System.out.println("Back to menu page");
             prepareAndSwitchToPage(App.MENU, main);
         }
