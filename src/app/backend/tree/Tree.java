@@ -46,12 +46,38 @@ public class Tree {
         if (childNode.hasChildNode()) {
             recursiveInsert(childNode, pair);
         }   else {
+            //At the leaf node
             if (childNode.isFull()) {
+                childNode.addData(pair); //This can NOT extracted before the IF because it has to be full BEFORE knowing we have to split
                 split(childNode);
             }   else {
                 childNode.addData(pair);
             }
         }
+    }
+
+    private void split(Node base) {
+        System.out.println("Splitting");
+        //Split the data into two partitions
+        int mid = base.getMid();
+        Object[] lower = base.arrayPartition(0, mid-1);
+        Object[] higher = base.arrayPartition(mid, base.getSize()-1);
+
+        //Seperate the base node into two nodes
+        base.replaceData(lower);
+        Node newNode = new LeafNode(this.keysPerLeafNode, higher);
+        newNode.setNextSibling(base.getNextSibling());
+        base.setNextSibling(newNode);
+        newNode.setParent(base.getParent());
+
+        //insert key to parent node to distinguish the new from the old
+        base.getParent().addData(newNode.keyAtIndex(0));
+
+        //Must check if parent even exists
+        //Must make sure if works for internal nodes
+
+
+        //MOVE EM AROUND
     }
 
     public void delete(String key) {
@@ -62,13 +88,7 @@ public class Tree {
         return null;
     }
 
-    private void split(Node base) {
-        int mid = base.getMid();
-        Object[] lower = base.arrayPartition(0, mid-1);
-        Object[] higher = base.arrayPartition(mid, base.getSize()-1);
 
-        //MOVE EM AROUND
-    }
 
     private void fuse(Node base) {
 

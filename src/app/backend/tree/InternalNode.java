@@ -18,4 +18,14 @@ public class InternalNode extends Node {
     public String keyFromObject(Object o) {
         return ((String) o);
     }
+
+    @Override
+    public Object[] getArray(int start, int end) {
+        return new String[end-start+1];
+    }
+
+    @Override
+    public Object getObject(Object o) {
+        return ((String) o);
+    }
 }

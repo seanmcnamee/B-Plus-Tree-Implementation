@@ -53,5 +53,9 @@ public class App {
         tree.printPreOrder();
         tree.insert("a");
         tree.printPreOrder();
+        tree.insert("aa");
+        tree.printPreOrder();
+        tree.insert("ab");
+        tree.printPreOrder();
     }
 }

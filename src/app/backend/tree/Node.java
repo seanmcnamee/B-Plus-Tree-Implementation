@@ -1,5 +1,9 @@
 package app.backend.tree;
 
+/**
+ * Note that internally, a node can store 1 extra than is displayed.
+ * This is so that splitting can be done easier
+ */
 public abstract class Node {
     protected Object[] dataMembers;
     protected Node parent;
@@ -8,7 +12,12 @@ public abstract class Node {
     protected int memberCount = 0;
 
     public Node(int dataSize) {
-        this.dataMembers = new Object[dataSize];
+        this.dataMembers = new Object[dataSize+1];
+    }
+
+    public Node(int dataSize, Object... dataArr) {
+        this(dataSize);
+        insertIntoCurrent(dataArr);
     }
 
     public Node getParent() {
@@ -83,10 +92,13 @@ public abstract class Node {
     }
 
     public abstract String keyFromObject(Object o);
+    public abstract Object getObject(Object o);
+    public abstract Object[] getArray(int start, int end);
 
     public String toString() {
         String overall = "";
-        for (Object data : dataMembers) {
+        for (int i = 0; i < this.dataMembers.length-1; i++) {
+            Object data = this.dataMembers[i];
             String key = keyFromObject(data);
             overall += key + " ";
         }
@@ -98,7 +110,7 @@ public abstract class Node {
     }
 
     public boolean isFull() {
-        return getSize() >= dataMembers.length;
+        return getSize() >= dataMembers.length-1;
     }
 
     public int getMid() {
@@ -106,11 +118,28 @@ public abstract class Node {
     }
 
     public Object[] arrayPartition(int start, int end) {
-        Object[] arr = new Object[end-start+1];
+        System.out.println("Partitioning...");
+        Object[] arr = getArray(start, end);
         for (int i = start; i <= end; i++) {
-            arr[i-start] = this.dataMembers[i];
+            arr[i-start] = getObject(this.dataMembers[i]);
         }
+        
         return arr;
+    }
+
+    public void replaceData(Object[] data) {
+        insertIntoCurrent(data);
+    }
+
+    private void insertIntoCurrent(Object[] data) {
+        for (int i = 0; i < this.dataMembers.length; i++) {
+            if (i < data.length) {
+                this.dataMembers[i] = data[i];
+            } else {
+                this.dataMembers[i] = null;
+            }
+            
+        }
     }
 
 
