@@ -21,7 +21,6 @@ public class Tree {
             this.root = createInternalNode(pair);
             return;
         }
-
         recursiveInsert(root, pair);
     }
 
@@ -79,13 +78,6 @@ public class Tree {
         newNode.setParent(base.getParent());
 
         addDataOrSplit(parentNode, newNode.keyAtIndex(0));
-        
-
-        //Must check if parent even exists
-        //Must make sure if works for internal nodes
-
-
-        //MOVE EM AROUND
     }
 
     private void addDataOrSplit(Node node, Object data) {

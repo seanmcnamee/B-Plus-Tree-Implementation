@@ -102,10 +102,10 @@ public abstract class Node {
 
     public String toString() {
         String overall = "";
-        for (int i = 0; i < this.dataMembers.length; i++) {
+        for (int i = 0; i < this.dataMembers.length-1; i++) {
             Object data = this.dataMembers[i];
             String key = keyFromObject(data);
-            overall += key + ((i==this.dataMembers.length-2)? "    <": "") + " ";
+            overall += key + ((i==this.dataMembers.length-1)? "    <": "") + " ";
         }
         return overall;
     }
