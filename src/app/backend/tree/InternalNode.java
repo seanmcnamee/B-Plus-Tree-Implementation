@@ -14,6 +14,10 @@ public class InternalNode extends Node {
         addData(firstKey);
     }
 
+    public InternalNode(int dataSize, Object... dataArr) {
+        super(dataSize, dataArr);
+    }
+
     @Override
     public String keyFromObject(Object o) {
         return ((String) o);
@@ -27,5 +31,10 @@ public class InternalNode extends Node {
     @Override
     public Object getObject(Object o) {
         return ((String) o);
+    }
+
+    @Override
+    public Node getDynamicNode(int[] sizes, Object[] newData) {
+        return new InternalNode(sizes[1], newData);
     }
 }

@@ -71,15 +71,19 @@ public abstract class Node {
         }
         //When you've honed into 1 value, give the index
         if (high-low == 0) {
+            System.out.println("Comparing " + keyFromObject(this.dataMembers[low]) + " to " + keyFromObject(data));
             if (keyFromObject(this.dataMembers[low]).compareTo(keyFromObject(data)) > 0) {
+                System.out.println("\t\t\tinserting below");
                 return low;
             } else {
+                System.out.println("\t\t\tinserting above");
                 return low+1;
             }
         }
 
         //Otherwise, split in half and keep honing in
         int mid = (high+low)/2;
+        System.out.println("Comparing " + keyFromObject(this.dataMembers[mid]) + " to " + keyFromObject(data));
         if (keyFromObject(this.dataMembers[mid]).compareTo(keyFromObject(data)) > 0) {
             return binarySearch(low, mid, data);
         } else {
@@ -94,13 +98,14 @@ public abstract class Node {
     public abstract String keyFromObject(Object o);
     public abstract Object getObject(Object o);
     public abstract Object[] getArray(int start, int end);
+    public abstract Node getDynamicNode(int[] sizes, Object[] newData); //0 = leaf, 1 = internal
 
     public String toString() {
         String overall = "";
-        for (int i = 0; i < this.dataMembers.length-1; i++) {
+        for (int i = 0; i < this.dataMembers.length; i++) {
             Object data = this.dataMembers[i];
             String key = keyFromObject(data);
-            overall += key + " ";
+            overall += key + ((i==this.dataMembers.length-2)? "    <": "") + " ";
         }
         return overall;
     }
@@ -138,8 +143,8 @@ public abstract class Node {
             } else {
                 this.dataMembers[i] = null;
             }
-            
         }
+        this.memberCount = Math.min(this.dataMembers.length, data.length);
     }
 
 

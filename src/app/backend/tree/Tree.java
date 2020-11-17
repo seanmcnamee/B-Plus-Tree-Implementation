@@ -47,12 +47,7 @@ public class Tree {
             recursiveInsert(childNode, pair);
         }   else {
             //At the leaf node
-            if (childNode.isFull()) {
-                childNode.addData(pair); //This can NOT extracted before the IF because it has to be full BEFORE knowing we have to split
-                split(childNode);
-            }   else {
-                childNode.addData(pair);
-            }
+            addDataOrSplit(childNode, pair);
         }
     }
 
@@ -65,19 +60,41 @@ public class Tree {
 
         //Seperate the base node into two nodes
         base.replaceData(lower);
-        Node newNode = new LeafNode(this.keysPerLeafNode, higher);
+        int[] nodeSizes = {this.keysPerLeafNode, this.keysPerInternalNode};
+        Node newNode = base.getDynamicNode(nodeSizes, higher);
         newNode.setNextSibling(base.getNextSibling());
         base.setNextSibling(newNode);
+        
+
+        //insert key to parent node
+        Node parentNode = base.getParent();
+        if (parentNode == null) {
+            //Create new root internal node
+            parentNode = new InternalNode(keysPerInternalNode);
+            parentNode.setChildNode(base);
+            base.setParent(parentNode);
+            this.root = parentNode;
+        }
+
         newNode.setParent(base.getParent());
 
-        //insert key to parent node to distinguish the new from the old
-        base.getParent().addData(newNode.keyAtIndex(0));
+        addDataOrSplit(parentNode, newNode.keyAtIndex(0));
+        
 
         //Must check if parent even exists
         //Must make sure if works for internal nodes
 
 
         //MOVE EM AROUND
+    }
+
+    private void addDataOrSplit(Node node, Object data) {
+        if (node.isFull()) {
+            node.addData(data);
+            split(node);
+        } else {
+            node.addData(data);
+        }
     }
 
     public void delete(String key) {

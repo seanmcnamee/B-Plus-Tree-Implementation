@@ -44,7 +44,7 @@ public class App {
     }
 //
     private static void testTree() {
-        Tree tree = new Tree(5, 3);
+        Tree tree = new Tree(3, 2);
         tree.insert("d");
         tree.printPreOrder();
         tree.insert("c");
@@ -53,9 +53,13 @@ public class App {
         tree.printPreOrder();
         tree.insert("a");
         tree.printPreOrder();
-        tree.insert("aa");
+        tree.insert("ba");
         tree.printPreOrder();
-        tree.insert("ab");
+        tree.insert("bd");
+        tree.printPreOrder();
+        tree.insert("ad");
+        tree.printPreOrder();
+        tree.insert("af");
         tree.printPreOrder();
     }
 }
