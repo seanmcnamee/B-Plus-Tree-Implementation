@@ -98,7 +98,6 @@ public abstract class Node {
     public abstract String keyFromObject(Object o);
     public abstract Object getObject(Object o);
     public abstract Object[] getArray(int start, int end);
-    public abstract Node getDynamicNode(int[] sizes, Object[] newData); //0 = leaf, 1 = internal
 
     public String toString() {
         String overall = "";

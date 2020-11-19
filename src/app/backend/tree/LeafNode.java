@@ -33,8 +33,4 @@ public class LeafNode extends Node {
         return ((KeyValue) o);
     }
 
-    @Override
-    public Node getDynamicNode(int[] sizes, Object[] newData) {
-        return new LeafNode(sizes[0], newData);
-    }
 }

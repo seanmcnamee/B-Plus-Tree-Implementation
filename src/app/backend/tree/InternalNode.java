@@ -33,8 +33,4 @@ public class InternalNode extends Node {
         return ((String) o);
     }
 
-    @Override
-    public Node getDynamicNode(int[] sizes, Object[] newData) {
-        return new InternalNode(sizes[1], newData);
-    }
 }
