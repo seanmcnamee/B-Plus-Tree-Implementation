@@ -54,15 +54,38 @@ public class Tree {
         System.out.println("Splitting");
         //Split the data into two partitions
         int mid = base.getMid();
+        String midElement = base.keyAtIndex(mid);
         Object[] lower = base.arrayPartition(0, mid-1);
-        Object[] higher = base.arrayPartition(mid, base.getSize()-1);
+
+        Object[] higher; //= base.arrayPartition(mid, base.getSize()-1);
 
         //Seperate the base node into two nodes
+        
+
+        Node newNode; //= base.getDynamicNode(nodeSizes, higher);
+        if (base.hasChildNode()) {
+            higher = base.arrayPartition(mid+1, base.getSize()-1);
+            newNode = new InternalNode(this.keysPerInternalNode, higher);
+            
+            Node childNode = base.getChildNode();
+            newNode.setChildNode(childNode);
+            for (int i = 0; i <= base.getSize(); i++) {
+                if (i > mid) {
+                    childNode.setParent(newNode);
+                }
+                childNode = childNode.getNextSibling();
+            }
+        } else {
+            higher = base.arrayPartition(mid, base.getSize()-1);
+            newNode = new LeafNode(this.keysPerLeafNode, higher);
+        }
+
         base.replaceData(lower);
-        int[] nodeSizes = {this.keysPerLeafNode, this.keysPerInternalNode};
-        Node newNode = base.getDynamicNode(nodeSizes, higher);
         newNode.setNextSibling(base.getNextSibling());
         base.setNextSibling(newNode);
+
+        System.out.println("Base size: " + base.getSize());
+        System.out.println("New size: " + newNode.getSize());
         
 
         //insert key to parent node
@@ -77,7 +100,7 @@ public class Tree {
 
         newNode.setParent(base.getParent());
 
-        addDataOrSplit(parentNode, newNode.keyAtIndex(0));
+        addDataOrSplit(parentNode, midElement);
     }
 
     private void addDataOrSplit(Node node, Object data) {
@@ -122,7 +145,7 @@ public class Tree {
         if (current.hasChildNode()) {
             preOrder(current.getChildNode(), tabCount+1);
         }
-        if (current.hasNextSibling()) {
+        if (current.hasNextSibling() && current.getParent().equals(current.getNextSibling().getParent())) {
             preOrder(current.getNextSibling(), tabCount);
         }
     }

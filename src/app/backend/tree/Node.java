@@ -105,7 +105,7 @@ public abstract class Node {
         for (int i = 0; i < this.dataMembers.length-1; i++) {
             Object data = this.dataMembers[i];
             String key = keyFromObject(data);
-            overall += key + ((i==this.dataMembers.length-1)? "    <": "") + " ";
+            overall += key + ((i==this.dataMembers.length)? "    <": "") + " ";
         }
         return overall;
     }
