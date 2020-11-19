@@ -68,9 +68,12 @@ public class Tree {
             newNode = new InternalNode(this.keysPerInternalNode, higher);
             
             Node childNode = base.getChildNode();
-            newNode.setChildNode(childNode);
+            
             for (int i = 0; i <= base.getSize(); i++) {
                 if (i > mid) {
+                    if (i == mid+1) {
+                        newNode.setChildNode(childNode);
+                    }
                     childNode.setParent(newNode);
                 }
                 childNode = childNode.getNextSibling();
