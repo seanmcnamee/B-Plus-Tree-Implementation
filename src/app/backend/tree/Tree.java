@@ -48,7 +48,7 @@ public class Tree {
      * @param pair the KeyValue pair we're searching for
      * @return The node that should contain pair
      */
-    private Node search(Node current, KeyValue pair) {
+    public Node search(Node current, KeyValue pair) {
         Node childNode = current.getChildNode();
         int childNum = 0;
         //Which child should I follow to get to this key?
@@ -97,19 +97,7 @@ public class Tree {
             //For an internal node, including the mid would be repetitive.
             higher = base.arrayPartition(mid+1, base.getSize()-1);
             newNode = new InternalNode(this.keysPerInternalNode, higher);
-            
-            //All of the connections are still pointing to the base node (lower half).
-            //Let's go through and make it so the higher half is pointer to this new node.
-            Node childNode = base.getChildNode();
-            for (int i = 0; i <= base.getSize(); i++) { //Loop through all the children
-                if (i > mid) {
-                    if (i == mid+1) { //The first one in the higher half is the child
-                        newNode.setChildNode(childNode);
-                    }
-                    childNode.setParent(newNode); //All the children in the higher half have the new node as a parent
-                }
-                childNode = childNode.getNextSibling();
-            }
+            restructureChildPointers(base, newNode, mid);
         } else {
             //For a leaf node, we can't lose any data, so we include mid
             higher = base.arrayPartition(mid, base.getSize()-1);
@@ -126,10 +114,7 @@ public class Tree {
         Node parentNode = base.getParent();
         if (parentNode == null) { 
             //Create new root internal node
-            parentNode = new InternalNode(keysPerInternalNode);
-            parentNode.setChildNode(base);
-            base.setParent(parentNode);
-            this.root = parentNode;
+            parentNode = addAndReturnNewRootNode(base);
         }
 
         newNode.setParent(base.getParent());
@@ -137,23 +122,43 @@ public class Tree {
         addDataOrSplit(parentNode, midElement);
     }
 
+    /**
+     * Sets all the children's parent pointers in the larger half of base to point to the newNode.
+     * It as well sets newnode's child pointer to be the first child whose pointer is changed.
+     * @param base
+     * @param newNode
+     * @param mid
+     */
+    private void restructureChildPointers(Node base, Node newNode, int mid) {
+        //All of the connections are still pointing to the base node (lower half).
+        //Let's go through and make it so the higher half is pointer to this new node.
+        Node childNode = base.getChildNode();
+        for (int i = 0; i <= base.getSize(); i++) { //Loop through all the children
+            if (i > mid) {
+                if (i == mid+1) { //The first one in the higher half is the child
+                    newNode.setChildNode(childNode);
+                }
+                childNode.setParent(newNode); //All the children in the higher half have the new node as a parent
+            }
+            childNode = childNode.getNextSibling();
+        }
+    }
+
+    //Creates a new root node to be the parent of the given base node.
+    private Node addAndReturnNewRootNode(Node base) {
+        Node parentNode = new InternalNode(keysPerInternalNode);
+        parentNode.setChildNode(base);
+        base.setParent(parentNode);
+        this.root = parentNode;
+        return parentNode;
+    }
+
     public void delete(String key) {
 
     }
 
-    public String search(String key) {
-        return null;
-    }
-
-
-
     private void fuse(Node base) {
 
-    }
-
-    private void connect(Node parent, Node firstchild){
-        parent.setChildNode(firstchild);
-        firstchild.setParent(parent);
     }
 
     public void printPreOrder() {
