@@ -5,12 +5,16 @@ import app.backend.fileaccess.KeyValue;
 public class Tree {
     private Node root;
     private final int keysPerInternalNode, keysPerLeafNode;
+    private int totalSplits, totalFuses;
 
     public Tree(int keysPerInternalNode, int keysPerLeafNode) {
         this.keysPerInternalNode = keysPerInternalNode;
         this.keysPerLeafNode = keysPerLeafNode;
+        this.totalSplits = this.totalFuses = 0;
     }
 
+    //TODO remove this because we shouldn't default add empty data with a key.
+    //This is for testing only
     public void insert(String s) {
         insert(new KeyValue(s, ""));
     }
@@ -22,7 +26,7 @@ public class Tree {
             this.root = createStartingRootNode(pair);
         } else {
             //Otherwise, Add the data to the node that was found
-            addDataOrSplit(search(root, pair), pair);
+            addDataOrSplit(search(pair.getKey()), pair);
         }
     }
 
@@ -44,21 +48,29 @@ public class Tree {
     }
 
     /**
+     * @param key the string we're searching for
+     * @return The node that should contain that string as a key
+     */
+    public Node search(String key) {
+        return search(root, key);
+    }
+
+    /**
      * @param current For recursive finding. The current node whose keys we're evaluating
      * @param pair the KeyValue pair we're searching for
      * @return The node that should contain pair
      */
-    public Node search(Node current, KeyValue pair) {
+    private Node search(Node current, String key) {
         Node childNode = current.getChildNode();
         int childNum = 0;
         //Which child should I follow to get to this key?
-        while (childNum < current.getSize() && current.keyAtIndex(childNum).compareTo(pair.getKey()) <= 0) {
+        while (childNum < current.getSize() && current.keyAtIndex(childNum).compareTo(key) <= 0) {
             childNum++;
             childNode = childNode.getNextSibling();
         }
         //Am I at the leaf or not?
         if (childNode.hasChildNode()) {
-            return search(childNode, pair);
+            return search(childNode, key);
         }   else {
             //At the leaf node
             return childNode;
@@ -80,7 +92,7 @@ public class Tree {
     }
     
     private void split(Node base) {
-        System.out.println("Splitting. We can increase a split count here!");
+        this.totalSplits++;
         
         //First off, we need to know the key that will be pushed up to the higher layer
         int mid = base.getMid();
@@ -107,8 +119,7 @@ public class Tree {
         //Now, lets update the base to only include the lower set of keys
         //and set the connections
         base.replaceData(lower);
-        newNode.setNextSibling(base.getNextSibling());
-        base.setNextSibling(newNode);
+        
 
         //If you don't have a parent, you are the root and a new root must be created
         Node parentNode = base.getParent();
@@ -117,7 +128,7 @@ public class Tree {
             parentNode = addAndReturnNewRootNode(base);
         }
 
-        newNode.setParent(base.getParent());
+        base.insertNextSibling(newNode);
         //insert key to parent node
         addDataOrSplit(parentNode, midElement);
     }
@@ -159,6 +170,14 @@ public class Tree {
 
     private void fuse(Node base) {
 
+    }
+
+    public int getSplits() {
+        return this.totalSplits;
+    }
+
+    public int getFuses() {
+        return this.totalFuses;
     }
 
     public void printPreOrder() {

@@ -50,6 +50,17 @@ public abstract class Node {
 
     public void setNextSibling(Node nextSibling) {
         this.nextSibling = nextSibling;
+        
+    }
+
+    /**
+     * Pass this node's current next sibling to the new one.
+     * Siblings have the same parent
+     */
+    public void insertNextSibling(Node newNextSibling) {
+        newNextSibling.setNextSibling(this.nextSibling);
+        setNextSibling(newNextSibling);
+        nextSibling.setParent(this.parent);
     }
 
     public void addData(Object data) {
