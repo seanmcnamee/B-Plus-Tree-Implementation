@@ -49,8 +49,7 @@ public abstract class Node {
     }
 
     public void setNextSibling(Node nextSibling) {
-        this.nextSibling = nextSibling;
-        
+        this.nextSibling = nextSibling;   
     }
 
     /**

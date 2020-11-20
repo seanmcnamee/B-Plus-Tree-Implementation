@@ -50,6 +50,7 @@ public class Tree {
     //TODO remove this because we shouldn't default add empty data with a key.
     //This is for testing only
     public void insert(String s) {
+        System.out.println("Adding " + s);
         insert(new KeyValue(s, ""));
     }
 
@@ -123,7 +124,6 @@ public class Tree {
         //and set the connections
         base.replaceData(lower);
         
-
         //If you don't have a parent, you are the root and a new root must be created
         Node parentNode = base.getParent();
         if (parentNode == null) { 
