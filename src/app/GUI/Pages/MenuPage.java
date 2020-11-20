@@ -10,6 +10,8 @@ import javax.swing.SwingConstants;
 import app.App;
 import app.GUI.GUI;
 import app.GUI.GUIPage;
+import java.util.*;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JOptionPane; // for the save/exit part 
 
@@ -50,6 +52,7 @@ public class MenuPage extends GUIPage {
 
     @Override
     public void actionPerformed(Object obj, GUI main) {
+        
         if (obj.equals(this.components[1].component)) { // function that performs the actions when button is clicked
             prepareAndSwitchToPage(App.VIEW_DATA, main);
         }   else if(obj.equals(this.components[2].component)) {
@@ -57,9 +60,9 @@ public class MenuPage extends GUIPage {
         }   else if(obj.equals(this.components[3].component)) {
             prepareAndSwitchToPage(App.DELETE_DATA, main);
         } else if(obj.equals(this.components[4].component)) {
+            prepareAndSwitchToPage(App.CLOSING_DATA, main);
             
-            
-            System.exit(0);
+           
         }
     }
 
