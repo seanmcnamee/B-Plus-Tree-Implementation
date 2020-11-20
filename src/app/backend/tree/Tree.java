@@ -13,46 +13,16 @@ public class Tree {
         this.totalSplits = this.totalFuses = 0;
     }
 
-    //TODO remove this because we shouldn't default add empty data with a key.
-    //This is for testing only
-    public void insert(String s) {
-        insert(new KeyValue(s, ""));
-    }
-
-    public void insert(KeyValue pair) {
-        //When empty, create an internalNode and its two leafNode
-        //And add the pair to the right of those leaf nodes
-        if (root == null) {
-            this.root = createStartingRootNode(pair);
-        } else {
-            //Otherwise, Add the data to the node that was found
-            addDataOrSplit(search(pair.getKey()), pair);
-        }
-    }
-
-    /**
-     * Adds a root node and 2 leafnodes and set the connections
-     * @param pair What to add to the right leaf node
-     * @return the internalNode that should be the new root of the tree.
-     */
-    private InternalNode createStartingRootNode(KeyValue pair) {
-        InternalNode newInternal = new InternalNode(keysPerInternalNode, pair.getKey());
-        LeafNode leafLeft = new LeafNode(keysPerLeafNode);
-        LeafNode leafRight = new LeafNode(keysPerLeafNode, pair);
-        //Set connections between parent and children
-        leafLeft.setParent(newInternal);
-        leafRight.setParent(newInternal);
-        newInternal.setChildNode(leafLeft);
-        leafLeft.setNextSibling(leafRight);
-        return newInternal;
-    }
-
     /**
      * @param key the string we're searching for
      * @return The node that should contain that string as a key
      */
     public Node search(String key) {
-        return search(root, key);
+        if (root == null) {
+            return null;
+        } else {
+            return search(root, key);
+        }
     }
 
     /**
@@ -75,6 +45,39 @@ public class Tree {
             //At the leaf node
             return childNode;
         }
+    }
+
+    //TODO remove this because we shouldn't default add empty data with a key.
+    //This is for testing only
+    public void insert(String s) {
+        insert(new KeyValue(s, ""));
+    }
+
+    public void insert(KeyValue pair) {
+        Node nodeToAddTo = search(pair.getKey());
+        if (nodeToAddTo == null) { //The only case that this happens is if there is no root
+            this.root = createStartingRootNode(pair);
+        } else {
+            //Otherwise, Add the data to the node that was found
+            addDataOrSplit(nodeToAddTo, pair);
+        }
+    }
+
+    /**
+     * Adds a root node and 2 leafnodes and set the connections
+     * @param pair What to add to the right leaf node
+     * @return the internalNode that should be the new root of the tree.
+     */
+    private InternalNode createStartingRootNode(KeyValue pair) {
+        InternalNode newInternal = new InternalNode(keysPerInternalNode, pair.getKey());
+        LeafNode leafLeft = new LeafNode(keysPerLeafNode);
+        LeafNode leafRight = new LeafNode(keysPerLeafNode, pair);
+        //Set connections between parent and children
+        leafLeft.setParent(newInternal);
+        leafRight.setParent(newInternal);
+        newInternal.setChildNode(leafLeft);
+        leafLeft.setNextSibling(leafRight);
+        return newInternal;
     }
 
     /**
@@ -136,20 +139,20 @@ public class Tree {
     /**
      * Sets all the children's parent pointers in the larger half of base to point to the newNode.
      * It as well sets newnode's child pointer to be the first child whose pointer is changed.
-     * @param base
-     * @param newNode
+     * @param oldEntirePArent
+     * @param newJustHigherParent
      * @param mid
      */
-    private void restructureChildPointers(Node base, Node newNode, int mid) {
+    private void restructureChildPointers(Node oldEntirePArent, Node newJustHigherParent, int mid) {
         //All of the connections are still pointing to the base node (lower half).
         //Let's go through and make it so the higher half is pointer to this new node.
-        Node childNode = base.getChildNode();
-        for (int i = 0; i <= base.getSize(); i++) { //Loop through all the children
+        Node childNode = oldEntirePArent.getChildNode();
+        for (int i = 0; i <= oldEntirePArent.getSize(); i++) { //Loop through all the children
             if (i > mid) {
                 if (i == mid+1) { //The first one in the higher half is the child
-                    newNode.setChildNode(childNode);
+                    newJustHigherParent.setChildNode(childNode);
                 }
-                childNode.setParent(newNode); //All the children in the higher half have the new node as a parent
+                childNode.setParent(newJustHigherParent); //All the children in the higher half have the new node as a parent
             }
             childNode = childNode.getNextSibling();
         }
@@ -165,7 +168,15 @@ public class Tree {
     }
 
     public void delete(String key) {
-
+        /*
+        Node nodeToAddTo = search(pair.getKey());
+        if (nodeToAddTo == null) { //The only case that this happens is if there is no root
+            this.root = createStartingRootNode(pair);
+        } else {
+            //Otherwise, Add the data to the node that was found
+            addDataOrSplit(nodeToAddTo, pair);
+        }
+        */
     }
 
     private void fuse(Node base) {
