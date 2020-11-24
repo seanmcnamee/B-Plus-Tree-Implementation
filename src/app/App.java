@@ -1,5 +1,7 @@
 package app;
 
+import java.util.ArrayList;
+
 import app.GUI.GUI;
 import app.GUI.Pages.AddDataMenuPage;
 import app.GUI.Pages.MenuPage;
@@ -12,8 +14,9 @@ import app.backend.tree.Tree;
 public class App {
     public static int MENU = 0, ADD_DATA = 1, VIEW_DATA = 2;
     public static void main(String[] args) throws Exception {
-        testTree();
+        //testTree();
         //testLeafNode();
+        //testFileAccess();
     }
 
     private static void startGUI() {
@@ -24,9 +27,19 @@ public class App {
 
     private static void testFileAccess() {
         FileAccess file = new FileAccess("src//app//res//partfile.txt");
-        KeyValue pair = file.getNextPair();
-        
-        System.out.println(pair.getKey() + ", " + pair.getValue());
+         ArrayList<KeyValue> pairs = new ArrayList<KeyValue>();
+
+        while (file.hasNext()) { //Using .hasNext() closes the reader when you can't continue anymore
+            KeyValue pair = file.getNextPair();
+            pairs.add(pair);
+            System.out.println(pair.getKey() + ", " + pair.getValue());
+        }
+
+        for (int i = 0; i < pairs.size(); i++) {
+            file.write(pairs.get(i).toString());
+        }
+        file.write(null); //Need to print null when done so it knows to close it
+        System.out.println("Done.");
     }
 
     private static void testLeafNode() {

@@ -15,5 +15,9 @@ public class KeyValue {
 
     public String getValue() {
         return value;
-    }//
+    }
+
+    public String toString() {
+        return key + "\t\t" + value;
+    }
 }
