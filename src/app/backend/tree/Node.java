@@ -10,9 +10,13 @@ public abstract class Node {
     protected Node childNode;
     protected Node nextSibling;
     protected int memberCount = 0;
+    private final int maxCount, minCount;
 
     public Node(int dataSize) {
-        this.dataMembers = new Object[dataSize+1];
+        //The array should store enough for itself full and a fuse.
+        this.maxCount = dataSize; //size larger than this is too much
+        this.minCount = (int) Math.ceil(dataSize/2.0); //Size smaller than this is too little
+        this.dataMembers = new Object[(int)(dataSize + minCount)];
     }
 
     public Node(int dataSize, Object... dataArr) {
@@ -123,10 +127,10 @@ public abstract class Node {
 
     public String toString() {
         String overall = "";
-        for (int i = 0; i < this.dataMembers.length-1; i++) {
+        for (int i = 0; i < this.maxCount; i++) {
             Object data = this.dataMembers[i];
             String key = keyFromObject(data);
-            overall += key + ((i==this.dataMembers.length)? "    <": "") + " ";
+            overall += key + ((i==this.maxCount)? "    <": "") + " ";
         }
         return overall;
     }
@@ -135,12 +139,12 @@ public abstract class Node {
         return memberCount;
     }
 
-    public boolean isFull() {
-        return getSize() >= dataMembers.length-1;
+    public boolean isOverFilled() {
+        return getSize() > this.maxCount;
     }
 
-    public boolean hasTooFew() {
-        return getSize() <= (dataMembers.length-1)/2;
+    public boolean isUnderFilled() {
+        return getSize() < this.minCount;
     }
 
     public int getMid() {

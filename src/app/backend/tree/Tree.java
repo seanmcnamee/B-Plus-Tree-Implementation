@@ -31,19 +31,18 @@ public class Tree {
      * @return The node that should contain pair
      */
     private Node search(Node current, String key) {
-        Node childNode = current.getChildNode();
-        int childNum = 0;
-        //Which child should I follow to get to this key?
-        while (childNum < current.getSize() && current.keyAtIndex(childNum).compareTo(key) <= 0) {
-            childNum++;
-            childNode = childNode.getNextSibling();
-        }
-        //Am I at the leaf or not?
-        if (childNode.hasChildNode()) {
+        if (!current.hasChildNode()) {
+            return current; //If at a leaf, then this is the key
+        } else {
+            Node childNode = current.getChildNode();
+            int childNum = 0;
+            //Which child should I follow to get to this key?
+            while (childNum < current.getSize() && current.keyAtIndex(childNum).compareTo(key) <= 0) {
+                childNum++;
+                childNode = childNode.getNextSibling();
+            }
+            //Search based on that child
             return search(childNode, key);
-        }   else {
-            //At the leaf node
-            return childNode;
         }
     }
 
@@ -57,28 +56,11 @@ public class Tree {
     public void insert(KeyValue pair) {
         Node nodeToAddTo = search(pair.getKey());
         if (nodeToAddTo == null) { //The only case that this happens is if there is no root
-            this.root = createStartingRootNode(pair);
+            this.root = new LeafNode(keysPerLeafNode, pair);//createStartingRootNode(pair);
         } else {
             //Otherwise, Add the data to the node that was found
             addDataOrSplit(nodeToAddTo, pair);
         }
-    }
-
-    /**
-     * Adds a root node and 2 leafnodes and set the connections
-     * @param pair What to add to the right leaf node
-     * @return the internalNode that should be the new root of the tree.
-     */
-    private InternalNode createStartingRootNode(KeyValue pair) {
-        InternalNode newInternal = new InternalNode(keysPerInternalNode, pair.getKey());
-        LeafNode leafLeft = new LeafNode(keysPerLeafNode);
-        LeafNode leafRight = new LeafNode(keysPerLeafNode, pair);
-        //Set connections between parent and children
-        leafLeft.setParent(newInternal);
-        leafRight.setParent(newInternal);
-        newInternal.setChildNode(leafLeft);
-        leafLeft.setNextSibling(leafRight);
-        return newInternal;
     }
 
     /**
@@ -87,11 +69,9 @@ public class Tree {
      * @param data the KeyValue pair or String to be added
      */
     private void addDataOrSplit(Node node, Object data) {
-        if (node.isFull()) {
-             node.addData(data);
+        node.addData(data);
+        if (node.isOverFilled()) {
             split(node);
-        } else {
-            node.addData(data);
         }
     }
     
@@ -178,7 +158,7 @@ public class Tree {
     }
 
     private void removeDataOrFuse(Node node, String key) {
-        if (node.hasTooFew()) {
+        if (node.isUnderFilled()) {
             node.removeData(key);
             fuse(node);
         } else {

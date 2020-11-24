@@ -14,7 +14,7 @@ import app.backend.tree.Tree;
 public class App {
     public static int MENU = 0, ADD_DATA = 1, VIEW_DATA = 2;
     public static void main(String[] args) throws Exception {
-        //testTree();
+        testTree();
         //testLeafNode();
         //testFileAccess();
     }
@@ -87,7 +87,7 @@ public class App {
         tree.insert("af");
         tree.printPreOrder();
 
-        tree.delete("bd");
-        tree.printPreOrder();
+        //tree.delete("bd");
+        //tree.printPreOrder();
     }
 }
