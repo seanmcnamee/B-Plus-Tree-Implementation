@@ -140,7 +140,7 @@ public abstract class Node {
     }
 
     public boolean hasTooFew() {
-        return getSize()/2 < dataMembers.length-1;
+        return getSize() <= (dataMembers.length-1)/2;
     }
 
     public int getMid() {
