@@ -13,6 +13,7 @@ public class App {
     public static int MENU = 0, ADD_DATA = 1, VIEW_DATA = 2;
     public static void main(String[] args) throws Exception {
         testTree();
+        //testLeafNode();
     }
 
     private static void startGUI() {
@@ -30,19 +31,30 @@ public class App {
 
     private static void testLeafNode() {
         LeafNode node = new LeafNode(5);
-        System.out.println(node.toString());
-        node.addData(new KeyValue("a", "fdaf"));
-        System.out.println(node.toString());
-        node.addData(new KeyValue("d", "fdaf"));
-        System.out.println(node.toString());
-        node.addData(new KeyValue("c", "fdaf"));
-        System.out.println(node.toString());
-        node.addData(new KeyValue("b", "fdaf"));
-        System.out.println(node.toString());
-        node.addData(new KeyValue("ba", "fdaf"));
-        System.out.println(node.toString());
+        KeyValue d1 = new KeyValue("a", "fdaf");
+        KeyValue d2 =new KeyValue("d", "fdaf");
+        KeyValue d3 =new KeyValue("c", "fdaf");
+        KeyValue d4 =new KeyValue("b", "fdaf");
+        KeyValue d5 =new KeyValue("ba", "fdaf");
+        KeyValue[] arr = {d1, d2, d3, d4, d5};
+
+        System.out.println("Inserting...");
+        for (KeyValue k : arr) {
+            System.out.println("\t" + k.getKey());
+            node.addData(k);
+            System.out.println(node.toString());
+            
+        }
+        
+        System.out.println("Deleting...");
+        for (KeyValue k : arr) {
+            System.out.println("\t" + k.getKey());
+            System.out.println(node.removeData(k.getKey()));
+            System.out.println(node.toString());
+            
+        }
     }
-//
+
     private static void testTree() {
         Tree tree = new Tree(3, 2);
         tree.insert("d");
@@ -60,6 +72,9 @@ public class App {
         tree.insert("ad");
         tree.printPreOrder();
         tree.insert("af");
+        tree.printPreOrder();
+
+        tree.delete("bd");
         tree.printPreOrder();
     }
 }

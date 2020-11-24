@@ -62,42 +62,54 @@ public abstract class Node {
         nextSibling.setParent(this.parent);
     }
 
-    public void addData(Object data) {
+    public int addData(Object data) {
         Object temp;
-        for (int i = binarySearch(0, memberCount-1, data); i <= memberCount; i++) {
+        int dataIndex = binarySearch(0, memberCount-1, keyFromObject(data));
+        memberCount++;
+        for (int i = dataIndex; i < memberCount; i++) {
             temp = this.dataMembers[i];
             this.dataMembers[i] = data;
             data = temp;
         }
-        memberCount++;
+        return dataIndex;
+    }
+
+    public int removeData(String key) {
+        int dataIndex = binarySearch(0, memberCount-1, key);
+        memberCount--;
+        for (int i = dataIndex; i < memberCount; i++) {
+            this.dataMembers[i] = this.dataMembers[i+1];
+        }
+        this.dataMembers[memberCount] = null;
+        return dataIndex;
     }
 
     /**
-     * Returns the index to add the new key.
+     * Returns the index to add/delete the data.
      */
-    private int binarySearch(int low, int high, Object data) {
+    private int binarySearch(int low, int high, String key) {
+        System.out.println("Binary search: " + low + " - " + high);
         if (high < low) {
             return low;
         }
         //When you've honed into 1 value, give the index
         if (high-low == 0) {
-            System.out.println("Comparing " + keyFromObject(this.dataMembers[low]) + " to " + keyFromObject(data));
-            if (keyFromObject(this.dataMembers[low]).compareTo(keyFromObject(data)) > 0) {
-                System.out.println("\t\t\tinserting below");
+            if (keyAtIndex(low).compareTo(key) >= 0) {
+                System.out.println("\t\t\tsmaller/equal");
                 return low;
             } else {
-                System.out.println("\t\t\tinserting above");
+                System.out.println("\t\t\tlarger");
                 return low+1;
             }
         }
 
         //Otherwise, split in half and keep honing in
         int mid = (high+low)/2;
-        System.out.println("Comparing " + keyFromObject(this.dataMembers[mid]) + " to " + keyFromObject(data));
-        if (keyFromObject(this.dataMembers[mid]).compareTo(keyFromObject(data)) > 0) {
-            return binarySearch(low, mid, data);
+        System.out.println("Comparing " + keyAtIndex(mid) + " to " + key);
+        if (keyAtIndex(mid).compareTo(key) >= 0) {
+            return binarySearch(low, mid, key);
         } else {
-            return binarySearch(mid+1, high, data);
+            return binarySearch(mid+1, high, key);
         }
     }
 
@@ -125,6 +137,10 @@ public abstract class Node {
 
     public boolean isFull() {
         return getSize() >= dataMembers.length-1;
+    }
+
+    public boolean hasTooFew() {
+        return getSize()/2 < dataMembers.length-1;
     }
 
     public int getMid() {

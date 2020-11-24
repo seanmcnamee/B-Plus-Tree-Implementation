@@ -88,7 +88,7 @@ public class Tree {
      */
     private void addDataOrSplit(Node node, Object data) {
         if (node.isFull()) {
-            node.addData(data);
+             node.addData(data);
             split(node);
         } else {
             node.addData(data);
@@ -168,15 +168,22 @@ public class Tree {
     }
 
     public void delete(String key) {
-        /*
-        Node nodeToAddTo = search(pair.getKey());
+        Node nodeToAddTo = search(key);
         if (nodeToAddTo == null) { //The only case that this happens is if there is no root
-            this.root = createStartingRootNode(pair);
+            System.err.println("There is nothing in the tree to remove!");
         } else {
-            //Otherwise, Add the data to the node that was found
-            addDataOrSplit(nodeToAddTo, pair);
+            //Otherwise, remove the data to the node that was found
+            removeDataOrFuse(nodeToAddTo, key);
         }
-        */
+    }
+
+    private void removeDataOrFuse(Node node, String key) {
+        if (node.hasTooFew()) {
+            node.removeData(key);
+            fuse(node);
+        } else {
+            node.removeData(key);
+        }
     }
 
     private void fuse(Node base) {
