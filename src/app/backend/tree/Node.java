@@ -92,24 +92,24 @@ public abstract class Node {
      * Returns the index to add/delete the data.
      */
     private int binarySearch(int low, int high, String key) {
-        System.out.println("Binary search: " + low + " - " + high);
+        //System.out.println("Binary search: " + low + " - " + high);
         if (high < low) {
             return low;
         }
         //When you've honed into 1 value, give the index
         if (high-low == 0) {
             if (keyAtIndex(low).compareTo(key) >= 0) {
-                System.out.println("\t\t\tsmaller/equal");
+                //System.out.println("\t\t\tsmaller/equal");
                 return low;
             } else {
-                System.out.println("\t\t\tlarger");
+                //System.out.println("\t\t\tlarger");
                 return low+1;
             }
         }
 
         //Otherwise, split in half and keep honing in
         int mid = (high+low)/2;
-        System.out.println("Comparing " + keyAtIndex(mid) + " to " + key);
+        //System.out.println("Comparing " + keyAtIndex(mid) + " to " + key);
         if (keyAtIndex(mid).compareTo(key) >= 0) {
             return binarySearch(low, mid, key);
         } else {
@@ -130,7 +130,7 @@ public abstract class Node {
         for (int i = 0; i < this.maxCount; i++) {
             Object data = this.dataMembers[i];
             String key = keyFromObject(data);
-            overall += key + ((i==this.maxCount)? "    <": "") + " ";
+            overall += key + " ";
         }
         return overall;
     }
@@ -152,7 +152,7 @@ public abstract class Node {
     }
 
     public Object[] arrayPartition(int start, int end) {
-        System.out.println("Partitioning...");
+        //System.out.println("Partitioning...");
         Object[] arr = getArray(start, end);
         for (int i = start; i <= end; i++) {
             arr[i-start] = getObject(this.dataMembers[i]);
@@ -163,6 +163,14 @@ public abstract class Node {
 
     public void replaceData(Object[] data) {
         insertIntoCurrent(data);
+    }
+
+    public void appendData(Object optionalData, Object[] data) {
+        if (optionalData == null) {
+            appendToCurrent(data);
+        } else {
+            appendToCurrent(optionalData, data);
+        }
     }
 
     private void insertIntoCurrent(Object[] data) {
@@ -176,5 +184,22 @@ public abstract class Node {
         this.memberCount = Math.min(this.dataMembers.length, data.length);
     }
 
+    private void appendToCurrent(Object... data) {
+        int currentSize = getSize();
+        int index = 0;
+        while (this.dataMembers[index] != null) {
+            index++;
+        }
+        for (int i = 0; i < data.length; i++) {
+            this.dataMembers[index+i] = data[i];
+        }
+        this.memberCount = index+data.length;
 
+/*         for (int i = currentSize; i < this.dataMembers.length; i++) {
+            if (i-currentSize < data.length) {
+                this.dataMembers[i] = data[i-currentSize];
+            }
+        }
+        this.memberCount = currentSize + currentSize - 1; */
+    }
 }

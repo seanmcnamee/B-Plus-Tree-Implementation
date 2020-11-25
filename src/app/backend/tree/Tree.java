@@ -75,6 +75,9 @@ public class Tree {
         }
     }
     
+    /**
+     * The base node gets split into itself, and a new node to its right
+     */
     private void split(Node base) {
         this.totalSplits++;
         
@@ -158,16 +161,95 @@ public class Tree {
     }
 
     private void removeDataOrFuse(Node node, String key) {
+        System.out.println("Removing " + key + " from " + node);
+        node.removeData(key);
         if (node.isUnderFilled()) {
-            node.removeData(key);
             fuse(node);
-        } else {
-            node.removeData(key);
+
+            //TODO try this
+/*             if (node.equals(this.root) && node.getSize() == 0) {
+                this.root = null; //TODO make sure this doesn't fuck up an internal node fuse
+            } else {
+                
+            } */
         }
     }
 
+    /**
+     * The base node gets added to the node on its left.
+     */
     private void fuse(Node base) {
+        this.totalFuses++;
 
+        
+        Node parent = base.getParent();
+        if (parent == null) {
+            //This is the root node. It has no sibling
+            //If its the last element in it, have its first child take its place.
+            if (base.getSize() == 0) {
+                if (base.hasChildNode()) {
+                    base.getChildNode().setParent(null);
+                }
+                this.root = base.getChildNode();
+            }
+        } else {
+            //This is NOT the root node.
+
+            //Get the previous sibling
+            Node leftSibling = getPreviousSibling(base);
+            if (leftSibling == null) {
+                //If there is no left sibling, fuse your right sibling to you.
+                fuse(base.getNextSibling());
+            } else {
+                
+                //Remove that key that the parent has for us
+                String possibleParentKey = getKeyForNode(base);
+                removeDataOrFuse(parent, possibleParentKey); //Fuse if needed.
+
+                ///Load all your values into the previous sibling
+                if (!base.hasChildNode()) { 
+                    //For Leaves, we don't
+                    leftSibling.appendData(null, base.arrayPartition(0, base.getSize()-1));
+                } else {
+                    //For internal nodes, we need to pull down the parent key.
+                    leftSibling.appendData(possibleParentKey, base.arrayPartition(0, base.getSize()-1));
+                }
+                
+                //Make your sibling forget about you (point to your next sibling)
+                leftSibling.setNextSibling(base.getNextSibling());
+    
+                //Split if needed.
+                if (leftSibling.isOverFilled()) {
+                    split(leftSibling);
+                }
+            }
+
+        }
+
+    }
+
+    private Node getPreviousSibling(Node base) {
+        Node parent = base.getParent();
+        Node currentChild = parent.getChildNode();
+        while (currentChild != null && currentChild.getNextSibling() != base) {
+            currentChild = currentChild.getNextSibling();
+        }
+        return currentChild;
+    }
+
+    private String getKeyForNode(Node base) {
+        Node parent = base.getParent();
+        Node currentChild = parent.getChildNode();
+        int i = 0;
+        while (currentChild != null && currentChild.getNextSibling() != base) {
+            currentChild = currentChild.getNextSibling();
+            i++;
+        }
+        if (currentChild == null) {
+            return null;
+        } else {
+            return parent.keyAtIndex(i);
+        }
     }
 
     public int getSplits() {
@@ -180,7 +262,12 @@ public class Tree {
 
     public void printPreOrder() {
         System.out.println();
-        preOrder(root, 0);
+        if (root != null) {
+            preOrder(root, 0);
+        } else {
+            System.out.println("Tree is empty");
+        }
+        
     }
 
     private void preOrder(Node current, int tabCount) {
