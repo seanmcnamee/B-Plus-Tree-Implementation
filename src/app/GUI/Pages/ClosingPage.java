@@ -25,8 +25,7 @@ public class ClosingPage extends GUIPage {
     public VariableComponent[] createComponents() {
         VariableComponent[] components = {
 
-                new VariableComponent(new JLabel("<HTML><U>Exit Page</U></HTML>", SwingConstants.CENTER), .5, .1, 1,
-                        .2),
+                new VariableComponent(new JLabel("Have a Good Day!!", SwingConstants.CENTER), .5, .1, 1, .2),
                 new VariableComponent(new JButton("Save & Exit"), .20, .6, .25, .15),
                 new VariableComponent(new JButton("Exit"), .80, .6, .25, .15) };
 
@@ -44,7 +43,7 @@ public class ClosingPage extends GUIPage {
     public void actionPerformed(Object obj, GUI main) {
 
         if (obj.equals(this.components[1].component)) { // function that performs the actions when button is clicked
-            // prepareAndSwitchToPage(App.VIEW_DATA, main); //IMPLEMENT SAVE HERE
+             //IMPLEMENT SAVE HERE
         } else if (obj.equals(this.components[2].component)) {
             main.frame.dispatchEvent(new WindowEvent(main.frame, WindowEvent.WINDOW_CLOSING));
         }
