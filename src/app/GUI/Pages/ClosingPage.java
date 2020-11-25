@@ -47,7 +47,6 @@ public class ClosingPage extends GUIPage {
         } else if (obj.equals(this.components[2].component)) {
             main.frame.dispatchEvent(new WindowEvent(main.frame, WindowEvent.WINDOW_CLOSING));
         }
-
     }
 
 }
