@@ -7,8 +7,11 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import app.backend.tree.Tree;
+
 
 public abstract class GUIPage {
+    protected Tree tree;
     protected JPanel panel;
     protected VariableComponent[] components;
 
@@ -25,7 +28,8 @@ public abstract class GUIPage {
         }
     }
 
-    public GUIPage() {
+    public GUIPage(Tree tree) {
+        this.tree = tree;
         this.panel = new JPanel();
         panel.setLayout(null);
         this.components = createComponents();

@@ -1,8 +1,8 @@
 package app.backend.tree;
 
 /**
- * Note that internally, a node can store 1 extra than is displayed.
- * This is so that splitting can be done easier
+ * Note that internally, a node can store 1 extra than is displayed. This is so
+ * that splitting can be done easier
  */
 public abstract class Node {
     protected Object[] dataMembers;
@@ -13,10 +13,10 @@ public abstract class Node {
     private final int maxCount, minCount;
 
     public Node(int dataSize) {
-        //The array should store enough for itself full and a fuse.
-        this.maxCount = dataSize; //size larger than this is too much
-        this.minCount = (int) Math.ceil(dataSize/2.0); //Size smaller than this is too little
-        this.dataMembers = new Object[(int)(dataSize + minCount)];
+        // The array should store enough for itself full and a fuse.
+        this.maxCount = dataSize; // size larger than this is too much
+        this.minCount = (int) Math.ceil(dataSize / 2.0); // Size smaller than this is too little
+        this.dataMembers = new Object[(int) (dataSize + minCount)];
     }
 
     public Node(int dataSize, Object... dataArr) {
@@ -35,7 +35,7 @@ public abstract class Node {
     public boolean hasChildNode() {
         return childNode != null;
     }
-    
+
     public Node getNextSibling() {
         return nextSibling;
     }
@@ -53,12 +53,12 @@ public abstract class Node {
     }
 
     public void setNextSibling(Node nextSibling) {
-        this.nextSibling = nextSibling;   
+        this.nextSibling = nextSibling;
     }
 
     /**
-     * Pass this node's current next sibling to the new one.
-     * Siblings have the same parent
+     * Pass this node's current next sibling to the new one. Siblings have the same
+     * parent
      */
     public void insertNextSibling(Node newNextSibling) {
         newNextSibling.setNextSibling(this.nextSibling);
@@ -68,7 +68,7 @@ public abstract class Node {
 
     public int addData(Object data) {
         Object temp;
-        int dataIndex = binarySearch(0, memberCount-1, keyFromObject(data));
+        int dataIndex = binarySearch(0, memberCount - 1, keyFromObject(data));
         memberCount++;
         for (int i = dataIndex; i < memberCount; i++) {
             temp = this.dataMembers[i];
@@ -79,41 +79,48 @@ public abstract class Node {
     }
 
     public int removeData(String key) {
-        int dataIndex = binarySearch(0, memberCount-1, key);
+        int dataIndex = binarySearch(0, memberCount - 1, key);
         memberCount--;
         for (int i = dataIndex; i < memberCount; i++) {
-            this.dataMembers[i] = this.dataMembers[i+1];
+            this.dataMembers[i] = this.dataMembers[i + 1];
         }
         this.dataMembers[memberCount] = null;
         return dataIndex;
     }
 
     /**
+     * Get the index of the desired key.
+     */
+    public int getIndexOf(String key) {
+        return binarySearch(0, memberCount - 1, key);
+    }
+
+    /**
      * Returns the index to add/delete the data.
      */
     private int binarySearch(int low, int high, String key) {
-        //System.out.println("Binary search: " + low + " - " + high);
+        // System.out.println("Binary search: " + low + " - " + high);
         if (high < low) {
             return low;
         }
-        //When you've honed into 1 value, give the index
-        if (high-low == 0) {
+        // When you've honed into 1 value, give the index
+        if (high - low == 0) {
             if (keyAtIndex(low).compareTo(key) >= 0) {
-                //System.out.println("\t\t\tsmaller/equal");
+                // System.out.println("\t\t\tsmaller/equal");
                 return low;
             } else {
-                //System.out.println("\t\t\tlarger");
-                return low+1;
+                // System.out.println("\t\t\tlarger");
+                return low + 1;
             }
         }
 
-        //Otherwise, split in half and keep honing in
-        int mid = (high+low)/2;
-        //System.out.println("Comparing " + keyAtIndex(mid) + " to " + key);
+        // Otherwise, split in half and keep honing in
+        int mid = (high + low) / 2;
+        // System.out.println("Comparing " + keyAtIndex(mid) + " to " + key);
         if (keyAtIndex(mid).compareTo(key) >= 0) {
             return binarySearch(low, mid, key);
         } else {
-            return binarySearch(mid+1, high, key);
+            return binarySearch(mid + 1, high, key);
         }
     }
 
@@ -126,7 +133,9 @@ public abstract class Node {
     }
 
     public abstract String keyFromObject(Object o);
+
     public abstract Object getObject(Object o);
+
     public abstract Object[] getArray(int start, int end);
 
     public String toString() {
@@ -152,16 +161,16 @@ public abstract class Node {
     }
 
     public int getMid() {
-        return getSize()/2;
+        return getSize() / 2;
     }
 
     public Object[] arrayPartition(int start, int end) {
-        //System.out.println("Partitioning...");
+        // System.out.println("Partitioning...");
         Object[] arr = getArray(start, end);
         for (int i = start; i <= end; i++) {
-            arr[i-start] = getObject(this.dataMembers[i]);
+            arr[i - start] = getObject(this.dataMembers[i]);
         }
-        
+
         return arr;
     }
 
@@ -195,15 +204,14 @@ public abstract class Node {
             index++;
         }
         for (int i = 0; i < data.length; i++) {
-            this.dataMembers[index+i] = data[i];
+            this.dataMembers[index + i] = data[i];
         }
-        this.memberCount = index+data.length;
+        this.memberCount = index + data.length;
 
-/*         for (int i = currentSize; i < this.dataMembers.length; i++) {
-            if (i-currentSize < data.length) {
-                this.dataMembers[i] = data[i-currentSize];
-            }
-        }
-        this.memberCount = currentSize + currentSize - 1; */
+        /*
+         * for (int i = currentSize; i < this.dataMembers.length; i++) { if
+         * (i-currentSize < data.length) { this.dataMembers[i] = data[i-currentSize]; }
+         * } this.memberCount = currentSize + currentSize - 1;
+         */
     }
 }

@@ -12,6 +12,8 @@ import javax.swing.SwingConstants;
 import app.App;
 import app.GUI.GUI;
 import app.GUI.GUIPage;
+import app.backend.tree.Tree;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -23,8 +25,8 @@ import javax.swing.JOptionPane; // for the save/exit part
 public class MenuPage extends GUIPage {
 
     // This is a test comment. Will it get deleted?
-    public MenuPage() {
-        super();
+    public MenuPage(Tree tree) {
+        super(tree);
         this.panel.setBackground(Color.BLACK);// sets the color of the backgroud in the GUI
     }
 

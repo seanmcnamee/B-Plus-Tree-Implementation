@@ -37,7 +37,7 @@ public class FileAccess {
         PrintWriter easyOut = null;
         try {
             Writer out = new BufferedWriter(new FileWriter(fileName));
-            easyOut = new PrintWriter( out );
+            easyOut = new PrintWriter(out);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -45,7 +45,8 @@ public class FileAccess {
     }
 
     /**
-     * @return if you can get the next line, and if you can't closes it automatically
+     * @return if you can get the next line, and if you can't closes it
+     *         automatically
      */
     public boolean hasNext() {
         boolean canGetNext = false;
@@ -67,7 +68,7 @@ public class FileAccess {
             StringTokenizer line = new StringTokenizer(fileIn.readLine());
             String key = line.nextToken();
             String value = line.nextToken();
-            while(line.hasMoreTokens()) {
+            while (line.hasMoreTokens()) {
                 value += line.nextToken("\n");
             }
             pair = new KeyValue(key, value);
@@ -101,5 +102,12 @@ public class FileAccess {
             current = current.getNextSibling();
         }
         write(null);
+    }
+
+    public void fillTreeFromFile(Tree tree) {
+        while (hasNext()) { // Using .hasNext() closes the reader when you can't continue anymore
+            KeyValue pair = getNextPair();
+            tree.insert(pair);
+        }
     }
 }

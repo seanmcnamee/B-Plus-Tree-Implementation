@@ -3,6 +3,9 @@ package app.GUI.Pages;
 import app.App;
 import app.GUI.GUI;
 import app.GUI.GUIPage;
+import app.backend.fileaccess.FileAccess;
+import app.backend.tree.Tree;
+
 import java.awt.Color;
 import java.awt.Font;
 
@@ -15,9 +18,11 @@ import java.util.*;
 import javax.swing.JFrame;
 
 public class ClosingPage extends GUIPage {
+    private FileAccess file;
 
-    public ClosingPage() {
-        super();
+    public ClosingPage(Tree tree, FileAccess file) {
+        super(tree);
+        this.file = file;
         this.panel.setBackground(Color.BLACK);// sets the color of the backgroud in the GUI
     }
 
@@ -27,7 +32,9 @@ public class ClosingPage extends GUIPage {
 
                 new VariableComponent(new JLabel("Have a Good Day!!", SwingConstants.CENTER), .5, .1, 1, .2),
                 new VariableComponent(new JButton("Save & Exit"), .20, .6, .25, .15),
-                new VariableComponent(new JButton("Exit"), .80, .6, .25, .15) };
+                new VariableComponent(new JButton("Exit"), .80, .6, .25, .15),
+                new VariableComponent(new JLabel("Splits: " + tree.getSplits()), .5, .8, .25, .15),
+                new VariableComponent(new JLabel("Fusions: " + tree.getFuses()), .5, .9, .25, .15) };
 
         this.setBackgroundAndTextOfComponentsInRange(components, 0, 0, Color.BLUE, Color.WHITE);
         this.setBackgroundAndTextOfComponentsInRange(components, 1, 1, Color.GREEN, Color.BLACK);
@@ -43,7 +50,8 @@ public class ClosingPage extends GUIPage {
     public void actionPerformed(Object obj, GUI main) {
 
         if (obj.equals(this.components[1].component)) { // function that performs the actions when button is clicked
-             //IMPLEMENT SAVE HERE
+            // Save the tree to the file
+            file.writeFromTree(this.tree);
         } else if (obj.equals(this.components[2].component)) {
             main.frame.dispatchEvent(new WindowEvent(main.frame, WindowEvent.WINDOW_CLOSING));
         }

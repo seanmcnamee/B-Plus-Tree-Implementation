@@ -7,6 +7,8 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import app.backend.tree.Tree;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
