@@ -5,7 +5,7 @@ import java.awt.Toolkit;
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
-
+import javax.swing.JOptionPane;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,16 +13,17 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.WindowListener;
 import java.awt.event.WindowEvent;
+import java.util.*;
 
 /**
  * GUI
  */
 public class GUI implements ComponentListener, ActionListener {
-    private JFrame frame;
+    public JFrame frame;
     private GUIPage currentPage;
     private GUIPage[] pages;
 
-    private final String NAME = "B+ Tree";
+    private final String NAME = "Algorithm Concepts Project";
     private final int WIDTH_AT_SCALE_1 = 790;
     private final int HEIGHT_AT_SCALE_1 = 590;
     private double gameScale = 1;
@@ -34,7 +35,7 @@ public class GUI implements ComponentListener, ActionListener {
     public void start() {
         setupPages();
         setupGUI();
-        
+
         frame.setVisible(true);
     }
 
@@ -77,25 +78,38 @@ public class GUI implements ComponentListener, ActionListener {
                 "frame size: " + frame.getContentPane().getWidth() + ", " + frame.getContentPane().getHeight());
 
         addListeners();
-        //frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        // frame.setExtendedState(frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 
         switchToAndReturnPage(0);
     }
 
     private void addListeners() {
+
         frame.addComponentListener(this);
         frame.addWindowListener(new WindowListener() {
             @Override
             public void windowClosing(WindowEvent e) {
-                System.out.println("Test");
+
             }
-            public void windowOpened(WindowEvent e) {}
-            public void windowClosed(WindowEvent e) {} 
-            public void windowIconified(WindowEvent e) {}
-            public void windowDeiconified(WindowEvent e) {}
-            public void windowActivated(WindowEvent e) {}
-            public void windowDeactivated(WindowEvent e) {}
-            
+
+            public void windowOpened(WindowEvent e) {
+            }
+
+            public void windowClosed(WindowEvent e) {
+            }
+
+            public void windowIconified(WindowEvent e) {
+            }
+
+            public void windowDeiconified(WindowEvent e) {
+            }
+
+            public void windowActivated(WindowEvent e) {
+            }
+
+            public void windowDeactivated(WindowEvent e) {
+            }
+
         });
     }
 
@@ -103,7 +117,7 @@ public class GUI implements ComponentListener, ActionListener {
     public GUIPage switchToAndReturnPage(int pageNumber) {
         currentPage = this.pages[pageNumber];
         frame.add(currentPage.getPanel());
-        
+
         currentPage.getPanel().setVisible(true);
         return currentPage;
     }
@@ -142,7 +156,7 @@ public class GUI implements ComponentListener, ActionListener {
         double excessHeight = frame.getContentPane().getHeight() - pixelHeight;
         double xStart = excessWidth / 2.0;
         double yStart = excessHeight / 2.0;
-// YO
+        // YO
         // Update each component in the page
         this.currentPage.setComponentSizeAndLocation(pixelWidth, pixelHeight, xStart, yStart);
     }
