@@ -3,7 +3,7 @@ package app.backend.tree;
 import app.backend.fileaccess.KeyValue;
 
 public class Tree {
-    private Node root;
+    public Node root;
     private final int keysPerInternalNode, keysPerLeafNode;
     private int totalSplits, totalFuses;
 
@@ -258,6 +258,17 @@ public class Tree {
 
     public int getFuses() {
         return this.totalFuses;
+    }
+
+    public Node getFirst() {
+        return getFirst(this.root);
+    }
+
+    public Node getFirst(Node current) {
+        if (current.hasChildNode()) {
+            return getFirst(current.getChildNode());
+        }
+        return current;
     }
 
     public void printPreOrder() {

@@ -121,6 +121,10 @@ public abstract class Node {
         return keyFromObject(this.dataMembers[index]);
     }
 
+    public Object ObjectAtIndex(int index) {
+        return getObject(this.dataMembers[index]);
+    }
+
     public abstract String keyFromObject(Object o);
     public abstract Object getObject(Object o);
     public abstract Object[] getArray(int start, int end);

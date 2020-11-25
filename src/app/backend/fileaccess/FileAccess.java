@@ -10,6 +10,9 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.StringTokenizer;
 
+import app.backend.tree.Tree;
+import app.backend.tree.Node;
+
 public class FileAccess {
     private BufferedReader fileIn;
     private PrintWriter fileOut;
@@ -86,5 +89,17 @@ public class FileAccess {
         } else {
             this.fileOut.println(toWrite);
         }
+    }
+
+    public void writeFromTree(Tree tree) {
+        Node current = tree.getFirst();
+        while (current != null) {
+            for (int i = 0; i < current.getSize(); i++) {
+                write(current.ObjectAtIndex(i).toString());
+            }
+
+            current = current.getNextSibling();
+        }
+        write(null);
     }
 }

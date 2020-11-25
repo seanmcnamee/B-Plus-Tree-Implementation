@@ -9,6 +9,7 @@ import app.GUI.Pages.ViewDataMenuPage;
 import app.backend.fileaccess.FileAccess;
 import app.backend.fileaccess.KeyValue;
 import app.backend.tree.LeafNode;
+import app.backend.tree.Node;
 import app.backend.tree.Tree;
 
 public class App {
@@ -29,21 +30,17 @@ public class App {
     private static void testFileAccess() {
         FileAccess file = new FileAccess("src//app//res//partfile.txt");
         Tree tree = new Tree(4, 16);
-        ArrayList<KeyValue> pairs = new ArrayList<KeyValue>();
 
         while (file.hasNext()) { //Using .hasNext() closes the reader when you can't continue anymore
             KeyValue pair = file.getNextPair();
-            pairs.add(pair);
             tree.insert(pair);
             //System.out.println(pair.getKey() + ", " + pair.getValue());
         }
 
-        tree.printPreOrder();
+        //tree.printPreOrder();
 
-        for (int i = 0; i < pairs.size(); i++) {
-            file.write(pairs.get(i).toString());
-        }
-        file.write(null); //Need to print null when done so it knows to close it
+        file.writeFromTree(tree);
+
         System.out.println("Done.");
     }
 
