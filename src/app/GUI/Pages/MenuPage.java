@@ -79,12 +79,14 @@ public class MenuPage extends GUIPage {
         if (obj.equals(this.components[1].component)) { // function that performs the actions when button is clicked
             prepareAndSwitchToPage(App.VIEW_DATA, main);
         }   else if(obj.equals(this.components[2].component)) {
-            prepareAndSwitchToPage(App.ADD_DATA, main);
+            AddPage addPage = (AddPage)(prepareAndSwitchToPage(App.ADD_DATA, main));
+            addPage.reloadLabels();
         }   else if(obj.equals(this.components[3].component)) {
-            prepareAndSwitchToPage(App.DELETE_DATA, main);
+            DeletePage deletePage = (DeletePage)(prepareAndSwitchToPage(App.DELETE_DATA, main));
+            deletePage.reloadLabels();
         } else if(obj.equals(this.components[4].component)) {
-            ClosingPage deletePage = (ClosingPage)(prepareAndSwitchToPage(App.CLOSING_DATA, main));
-            deletePage.reloadCounts();
+            ClosingPage closingPage = (ClosingPage)(prepareAndSwitchToPage(App.CLOSING_DATA, main));
+            closingPage.reloadLabels();
            
         }
     }

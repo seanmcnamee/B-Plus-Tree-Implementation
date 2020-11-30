@@ -59,7 +59,7 @@ public class ClosingPage extends GUIPage {
         }
     }
 
-    public void reloadCounts() {
+    public void reloadLabels() {
         ((JLabel) this.components[3].component).setText("Splits: " + tree.getSplits());
         ((JLabel) this.components[4].component).setText("Parent Splits: " + tree.getParentSplits());
         ((JLabel) this.components[5].component).setText("Fusions: " + tree.getFuses());

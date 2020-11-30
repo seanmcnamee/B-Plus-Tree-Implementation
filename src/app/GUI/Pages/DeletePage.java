@@ -14,6 +14,7 @@ import app.GUI.GUIPage;
 import app.backend.tree.Tree;
 
 public class DeletePage extends GUIPage {
+    private String NOT_FOUND = "That part can't be found!";
 
     public DeletePage(Tree tree) {
         super(tree);
@@ -25,11 +26,10 @@ public class DeletePage extends GUIPage {
         String newLine = ("Display the Next \n 10 Parts");
         VariableComponent[] components = {
                 new VariableComponent(new JLabel("Deleting Part", SwingConstants.CENTER), .5, .1, 1, .2),
-                new VariableComponent(new JLabel("<HTML><U>Enter Part Number:</U></HTML>"), .13, .3, .23, .10), // Underlines
-                                                                                                                // the
-                                                                                                                // text
+                new VariableComponent(new JLabel("<HTML><U>Enter Part Number:</U></HTML>"), .13, .3, .23, .10), // Underlines text
                 new VariableComponent(new JTextArea(), .38, .3, .23, .05),
                 new VariableComponent(new JButton("Delete"), .6, .3, .10, .05),
+                new VariableComponent(new JLabel(), .38, .5, .23, .05),
                 new VariableComponent(new JButton("Back to Menu Page"), .88, .93, .23, .10) };
 
         /*
@@ -37,7 +37,7 @@ public class DeletePage extends GUIPage {
          * JButton("Exit ->"), .88, .93, .23, .10) };
          */
         this.setBackgroundAndTextOfComponentsInRange(components, 0, 1, Color.BLUE, Color.WHITE);
-        this.setBackgroundAndTextOfComponentsInRange(components, 4, 4, Color.BLUE, Color.WHITE);
+        this.setBackgroundAndTextOfComponentsInRange(components, 5, 5, Color.BLUE, Color.WHITE);
         this.setBackgroundAndTextOfComponentsInRange(components, 2, 2, Color.WHITE, Color.BLACK);// changes color of
                                                                                                  // text and backColor
         this.setBackgroundAndTextOfComponentsInRange(components, 3, 3, Color.RED, Color.BLACK);
@@ -71,9 +71,15 @@ public class DeletePage extends GUIPage {
             if (success) {
                 // Clear the textarea to show completion
                 ((JTextArea) this.components[2].component).setText("");
+            } else {
+                ((JLabel) this.components[4].component).setText(NOT_FOUND);
             }
             
         }
 
+    }
+
+    public void reloadLabels() {
+        ((JLabel) this.components[4].component).setText("");
     }
 }
