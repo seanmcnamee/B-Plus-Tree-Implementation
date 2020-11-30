@@ -33,8 +33,10 @@ public class ClosingPage extends GUIPage {
                 new VariableComponent(new JLabel("Have a Good Day!!", SwingConstants.CENTER), .5, .1, 1, .2),
                 new VariableComponent(new JButton("Save & Exit"), .20, .6, .25, .15),
                 new VariableComponent(new JButton("Exit"), .80, .6, .25, .15),
-                new VariableComponent(new JLabel("Splits: " + tree.getSplits()), .5, .8, .25, .15),
-                new VariableComponent(new JLabel("Fusions: " + tree.getFuses()), .5, .9, .25, .15) };
+                new VariableComponent(new JLabel(), .5, .75, .25, .15),
+                new VariableComponent(new JLabel(), .5, .8, .25, .15),
+                new VariableComponent(new JLabel(), .5, .85, .25, .15),
+                new VariableComponent(new JLabel(), .5, .9, .25, .15) };
 
         this.setBackgroundAndTextOfComponentsInRange(components, 0, 0, Color.BLUE, Color.WHITE);
         this.setBackgroundAndTextOfComponentsInRange(components, 1, 1, Color.GREEN, Color.BLACK);
@@ -55,6 +57,13 @@ public class ClosingPage extends GUIPage {
         } else if (obj.equals(this.components[2].component)) {
             main.frame.dispatchEvent(new WindowEvent(main.frame, WindowEvent.WINDOW_CLOSING));
         }
+    }
+
+    public void reloadCounts() {
+        ((JLabel) this.components[3].component).setText("Splits: " + tree.getSplits());
+        ((JLabel) this.components[4].component).setText("Parent Splits: " + tree.getParentSplits());
+        ((JLabel) this.components[5].component).setText("Fusions: " + tree.getFuses());
+        ((JLabel) this.components[6].component).setText("Parent Fusions: " + tree.getParentFuses());
     }
 
 }

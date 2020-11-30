@@ -1,11 +1,13 @@
 package app.backend.tree;
 
+import java.util.ArrayList;
+
 import app.backend.fileaccess.KeyValue;
 
 public class Tree {
     public Node root;
     private final int keysPerInternalNode, keysPerLeafNode;
-    private int totalSplits, totalFuses;
+    private int totalSplits, totalFuses, totalParentSplits, totalParentFuses;
 
     public Tree(int keysPerInternalNode, int keysPerLeafNode) {
         this.keysPerInternalNode = keysPerInternalNode;
@@ -47,13 +49,38 @@ public class Tree {
         }
     }
 
+    public ArrayList<String> searchAndNextX(String key, int count) {
+        ArrayList<String> nextX = new ArrayList<String>();
+        // Find it in the tree
+        LeafNode node = (LeafNode) search(key);
+        // Find it in the node
+        int indexOfKey = node.getIndexOf(key);
+
+        if (indexOfKey >= 0) {
+            int numDisplayed = 0;
+            // Keep a count of how many pairs you display! (only need 10)
+            // Loop through the rest of your node.
+            // If you need to display more, go to the next node
+            // Repeat until you've reached count (OR there is no next nodnumDisplayed++;e)
+            while (numDisplayed < count+1){ //Include the searching one, but make sure there's the next 'count'
+                nextX.add(((KeyValue) (node.ObjectAtIndex(indexOfKey + numDisplayed))).toString());
+                numDisplayed++;
+                if (indexOfKey + numDisplayed >= node.getSize()) {
+                    node = (LeafNode) node.getNextSibling();
+                    indexOfKey = -numDisplayed;
+                }
+            }
+        }
+        return nextX;
+    }
+
     public void insert(KeyValue pair) {
         Node nodeToAddTo = search(pair.getKey());
         if (nodeToAddTo == null) { // The only case that this happens is if there is no root
             this.root = new LeafNode(keysPerLeafNode, pair);// createStartingRootNode(pair);
         } else {
             // Otherwise, Add the data to the node that was found
-            addDataOrSplit(nodeToAddTo, pair);
+            addDataOrSplit(nodeToAddTo, pair, false);
         }
     }
 
@@ -63,17 +90,20 @@ public class Tree {
      * @param node the node to add the data to
      * @param data the KeyValue pair or String to be added
      */
-    private void addDataOrSplit(Node node, Object data) {
+    private void addDataOrSplit(Node node, Object data, boolean isParentSplit) {
         node.addData(data);
         if (node.isOverFilled()) {
-            split(node);
+            split(node, isParentSplit);
         }
     }
 
     /**
      * The base node gets split into itself, and a new node to its right
      */
-    private void split(Node base) {
+    private void split(Node base, boolean isParentSplit) {
+        if (isParentSplit) {
+            this.totalParentSplits++;
+        }
         this.totalSplits++;
 
         // First off, we need to know the key that will be pushed up to the higher layer
@@ -111,7 +141,7 @@ public class Tree {
 
         base.insertNextSibling(newNode);
         // insert key to parent node
-        addDataOrSplit(parentNode, midElement);
+        addDataOrSplit(parentNode, midElement, true);
     }
 
     /**
@@ -148,36 +178,32 @@ public class Tree {
         return parentNode;
     }
 
-    public void delete(String key) {
+    public boolean delete(String key) {
         Node nodeToAddTo = search(key);
-        if (nodeToAddTo == null) { // The only case that this happens is if there is no root
-            System.err.println("There is nothing in the tree to remove!");
+        if (nodeToAddTo == null || nodeToAddTo.getIndexOf(key) == -1) { // The only case that this happens is if there is no root
+            return false;
         } else {
             // Otherwise, remove the data to the node that was found
-            removeDataOrFuse(nodeToAddTo, key);
+            removeDataOrFuse(nodeToAddTo, key, false);
+            return true;
         }
     }
 
-    private void removeDataOrFuse(Node node, String key) {
+    private void removeDataOrFuse(Node node, String key, boolean isParentFuse) {
         System.out.println("Removing " + key + " from " + node);
         node.removeData(key);
         if (node.isUnderFilled()) {
-            fuse(node);
-
-            // TODO try this
-            /*
-             * if (node.equals(this.root) && node.getSize() == 0) { this.root = null; //TODO
-             * make sure this doesn't fuck up an internal node fuse } else {
-             * 
-             * }
-             */
+            fuse(node, isParentFuse);
         }
     }
 
     /**
      * The base node gets added to the node on its left.
      */
-    private void fuse(Node base) {
+    private void fuse(Node base, boolean isParentFuse) {
+        if (isParentFuse) {
+            this.totalParentFuses++;
+        }
         this.totalFuses++;
 
         Node parent = base.getParent();
@@ -197,12 +223,12 @@ public class Tree {
             Node leftSibling = getPreviousSibling(base);
             if (leftSibling == null) {
                 // If there is no left sibling, fuse your right sibling to you.
-                fuse(base.getNextSibling());
+                fuse(base.getNextSibling(), isParentFuse);
             } else {
 
                 // Remove that key that the parent has for us
                 String possibleParentKey = getKeyForNode(base);
-                removeDataOrFuse(parent, possibleParentKey); // Fuse if needed.
+                removeDataOrFuse(parent, possibleParentKey, true); // Fuse if needed.
 
                 /// Load all your values into the previous sibling
                 if (!base.hasChildNode()) {
@@ -218,7 +244,7 @@ public class Tree {
 
                 // Split if needed.
                 if (leftSibling.isOverFilled()) {
-                    split(leftSibling);
+                    split(leftSibling, false);
                 }
             }
 
@@ -258,11 +284,19 @@ public class Tree {
         return this.totalFuses;
     }
 
+    public int getParentSplits() {
+        return this.totalParentSplits;
+    }
+
+    public int getParentFuses() {
+        return this.totalParentFuses;
+    }
+
     public Node getFirst() {
         return getFirst(this.root);
     }
 
-    public Node getFirst(Node current) {
+    private Node getFirst(Node current) {
         if (current.hasChildNode()) {
             return getFirst(current.getChildNode());
         }

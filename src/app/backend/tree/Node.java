@@ -68,7 +68,7 @@ public abstract class Node {
 
     public int addData(Object data) {
         Object temp;
-        int dataIndex = binarySearch(0, memberCount - 1, keyFromObject(data));
+        int dataIndex = binarySearchInsert(0, memberCount - 1, keyFromObject(data));
         memberCount++;
         for (int i = dataIndex; i < memberCount; i++) {
             temp = this.dataMembers[i];
@@ -80,12 +80,15 @@ public abstract class Node {
 
     public int removeData(String key) {
         int dataIndex = binarySearch(0, memberCount - 1, key);
-        memberCount--;
-        for (int i = dataIndex; i < memberCount; i++) {
-            this.dataMembers[i] = this.dataMembers[i + 1];
+        if (dataIndex >= 0) {
+            memberCount--;
+            for (int i = dataIndex; i < memberCount; i++) {
+                this.dataMembers[i] = this.dataMembers[i + 1];
+            }
+            this.dataMembers[memberCount] = null;
         }
-        this.dataMembers[memberCount] = null;
         return dataIndex;
+        
     }
 
     /**
@@ -96,9 +99,9 @@ public abstract class Node {
     }
 
     /**
-     * Returns the index to add/delete the data.
+     * Returns the index to add the data properly.
      */
-    private int binarySearch(int low, int high, String key) {
+    private int binarySearchInsert(int low, int high, String key) {
         // System.out.println("Binary search: " + low + " - " + high);
         if (high < low) {
             return low;
@@ -111,6 +114,34 @@ public abstract class Node {
             } else {
                 // System.out.println("\t\t\tlarger");
                 return low + 1;
+            }
+        }
+
+        // Otherwise, split in half and keep honing in
+        int mid = (high + low) / 2;
+        // System.out.println("Comparing " + keyAtIndex(mid) + " to " + key);
+        if (keyAtIndex(mid).compareTo(key) >= 0) {
+            return binarySearchInsert(low, mid, key);
+        } else {
+            return binarySearchInsert(mid + 1, high, key);
+        }
+    }
+
+    /**
+     * Returns the index of currently existing data. -1 if not found.
+     */
+    private int binarySearch(int low, int high, String key) {
+        // System.out.println("Binary search: " + low + " - " + high);
+        if (high < low) {
+            return low;
+        }
+        // When you've honed into 1 value, give the index
+        if (high - low == 0) {
+            if (keyAtIndex(low).compareTo(key) == 0) {
+                // System.out.println("\t\t\tsmaller/equal");
+                return low;
+            } else {
+                return -1;
             }
         }
 

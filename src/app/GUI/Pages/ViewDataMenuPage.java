@@ -2,6 +2,7 @@ package app.GUI.Pages;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -17,6 +18,7 @@ import app.backend.tree.LeafNode;
 import app.backend.tree.Node;
 
 public class ViewDataMenuPage extends GUIPage {
+    private String NOT_FOUND = "That part can't be found!";
 
     public ViewDataMenuPage(Tree tree) {
         super(tree);
@@ -57,58 +59,44 @@ public class ViewDataMenuPage extends GUIPage {
             prepareAndSwitchToPage(App.MENU, main);
         } else if (obj.equals(this.components[3].component)) {
 
-            // TODO what if it doesn't match????
-            KeyValue pair = getFirstPair();
-            // Print the value to the user
-            ((JLabel) this.components[5].component).setText(pair.toString());
+            //Get key
+            String part = ((JTextArea) this.components[2].component).getText();
 
-            // Clear their textarea input
-            ((JTextArea) this.components[2].component).setText("");
+            //Print out only this item
+            printOutOrError(part, 0);
 
         } else if (obj.equals(this.components[4].component)) {
+            //Get key
             String part = ((JTextArea) this.components[2].component).getText();
-            // Find it in the tree
-            LeafNode node = (LeafNode) tree.search(part);
-            // Find it in the node
-            int indexOfKey = node.getIndexOf(part);
-            KeyValue pair = (KeyValue) (node.ObjectAtIndex(indexOfKey));
 
+            //Print out this and the next 10 items
+            printOutOrError(part, 10);
+        }
+    }
+
+    private void printOutOrError(String key, int xAfter) {
+        //Get the pair at the current location (null if not found)
+        ArrayList<String> keyAndNextX = tree.searchAndNextX(key, xAfter);
+        
+        if (keyAndNextX.size() > 0) {
             String output = "";
-            int numDisplayed = 0;
-            output += ((KeyValue) (node.ObjectAtIndex(indexOfKey + numDisplayed))).toString() + "\n\n";
-            // Keep a count of how many pairs you display! (only need 10)
-            // Loop through the rest of your node.
-            // If you need to display more, go to the next node
-            // Repeat until you've reached 10 (OR there is no next node)
-            do {
-                numDisplayed++;
-                if (indexOfKey + numDisplayed >= node.getSize()) {
-                    node = (LeafNode) node.getNextSibling();
-                    indexOfKey = -numDisplayed;
+            for (String s : keyAndNextX) {
+                String newLines = "\n";
+                if (output.equals("")) {
+                    newLines += "\n";
                 }
-                output += ((KeyValue) (node.ObjectAtIndex(indexOfKey + numDisplayed))).toString() + "\n";
-            } while (numDisplayed < 10);
+                output += s + newLines;
+            }
 
             // Print the value to the user
             ((JLabel) this.components[5].component).setText("<html>" + output.replaceAll("\\n", "<br>") + "</html>");
 
             // Clear their textarea input
             ((JTextArea) this.components[2].component).setText("");
-
-            /*
-             * for (int i = 0; i < 10; i++) { tree.printPreOrder(); }
-             */
+        } else {
+            //Tell the user there's an error
+            ((JLabel) this.components[5].component).setText(NOT_FOUND);
         }
     }
 
-    private KeyValue getFirstPair() {
-        // Get the key
-        String part = ((JTextArea) this.components[2].component).getText();
-        // Find it in the tree
-        LeafNode node = (LeafNode) tree.search(part);
-        // Find it in the node
-        int indexOfKey = node.getIndexOf(part);
-        KeyValue pair = (KeyValue) (node.ObjectAtIndex(indexOfKey));
-        return pair;
-    }
 }

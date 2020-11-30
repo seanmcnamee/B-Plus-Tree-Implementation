@@ -83,8 +83,8 @@ public class MenuPage extends GUIPage {
         }   else if(obj.equals(this.components[3].component)) {
             prepareAndSwitchToPage(App.DELETE_DATA, main);
         } else if(obj.equals(this.components[4].component)) {
-            prepareAndSwitchToPage(App.CLOSING_DATA, main);
-            
+            ClosingPage deletePage = (ClosingPage)(prepareAndSwitchToPage(App.CLOSING_DATA, main));
+            deletePage.reloadCounts();
            
         }
     }

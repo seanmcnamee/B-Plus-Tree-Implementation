@@ -62,16 +62,17 @@ public class DeletePage extends GUIPage {
             prepareAndSwitchToPage(App.MENU, main);
         } else if (obj.equals(this.components[3].component)) {
 
-            // TODO what if it doesn't match??
-
             // Get the key from the textarea
             String part = ((JTextArea) this.components[2].component).getText();
 
             // Delete the part
-            tree.delete(part);
+            boolean success = tree.delete(part);
 
-            // Clear the textarea to show completion
-            ((JTextArea) this.components[2].component).setText("");
+            if (success) {
+                // Clear the textarea to show completion
+                ((JTextArea) this.components[2].component).setText("");
+            }
+            
         }
 
     }
