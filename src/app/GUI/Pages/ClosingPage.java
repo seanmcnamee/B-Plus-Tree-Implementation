@@ -50,6 +50,7 @@ public class ClosingPage extends GUIPage {
         if (obj.equals(this.components[1].component)) { // function that performs the actions when button is clicked
             // Save the tree to the file
             file.writeFromTree(this.tree);
+            main.frame.dispatchEvent(new WindowEvent(main.frame, WindowEvent.WINDOW_CLOSING));
         } else if (obj.equals(this.components[2].component)) {
             main.frame.dispatchEvent(new WindowEvent(main.frame, WindowEvent.WINDOW_CLOSING));
         }
