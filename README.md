@@ -1,12 +1,15 @@
 Welcome!
 
-Within the "src/app" folder, you will see three folders plus the main java file. 
+To run the program, simply click on tree.jar! Note that the resource folder must me in the same directory as tree.jar in order for the program to work. Therefore, if you move tree.jar, you must also move the res folder.
+
+Going into the "res" folder, you will find two files. One of the files is the part file that was given to us that we are supposed to use in our program. The second file is the image file used on the main menu in our program (NYIT logo).
+
+Within the "src/app" folder, you will see two folders plus the main java file. 
 
 Going into the "GUI" folder, you will see all the files related to the making of the GUI. There is a folder labeled "Pages" which consists of all the classes that were created to make each page of the GUI. The "GUI.java" and the "GUIPage.java" are both java files that include all of the JPanel and JFrame methods. 
 
 Going into the "Backend" folder, you will see two folders: "Fileaccess" and "tree". The "Fileaccess" folder has the files needed for the program to read and manipulate the data in the partfile that was given. The "tree" folder has all the files needed to construct the B+tree within the program. There are four java class files within this folder and they all work together to make the B+tree work in our program. 
 
-Going into the "res" folder, you will find two files. One of the files is the part file that was given to us that we are supposed to use in our program. The second file is the image file used on the main menu in our program (NYIT logo).
 
 Moving forward. This program stores all the data from the part file into a B+tree format. The program starts off at the main menu page where there are three options: "Search Part", "Add a Part", and "Delete a Part". 
 
