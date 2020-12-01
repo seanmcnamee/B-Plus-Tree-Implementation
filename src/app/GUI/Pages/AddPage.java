@@ -57,8 +57,9 @@ public class AddPage extends GUIPage {
             prepareAndSwitchToPage(App.MENU, main);
         } else if (obj.equals(this.components[5].component)) {
             // Grab part number and description
-            String part = ((JTextArea) this.components[2].component).getText();
-            String desc = ((JTextArea) this.components[4].component).getText();
+            String[] partAndDesc = getStringsOfTextAreas(2, 4);
+            String part = partAndDesc[0];
+            String desc = partAndDesc[1];
 
             LeafNode node = (LeafNode) tree.search(part);
             // Find it in the node
@@ -71,15 +72,15 @@ public class AddPage extends GUIPage {
                 tree.insert(pair);
     
                 // Empty textareas to show that it was accepted
-                ((JTextArea) this.components[2].component).setText("");
-                ((JTextArea) this.components[4].component).setText("");
+                clearAllJTextAreas();
             } else {
-                ((JLabel) this.components[6].component).setText(ALREADY_EXISTS);
+                //Tell the user that it already exists.
+                setStringOfLabels(ALREADY_EXISTS, 6);
             }
         }
     }
 
     public void reloadLabels() {
-        ((JLabel) this.components[6].component).setText("");
+        setStringOfLabels("", 6);
     }
 }

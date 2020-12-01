@@ -13,9 +13,6 @@ import app.App;
 import app.GUI.GUI;
 import app.GUI.GUIPage;
 import app.backend.tree.Tree;
-import app.backend.fileaccess.KeyValue;
-import app.backend.tree.LeafNode;
-import app.backend.tree.Node;
 
 public class ViewDataMenuPage extends GUIPage {
     private String NOT_FOUND = "That part can't be found!";
@@ -59,22 +56,21 @@ public class ViewDataMenuPage extends GUIPage {
             prepareAndSwitchToPage(App.MENU, main);
         } else if (obj.equals(this.components[3].component)) {
 
-            //Get key
-            String part = ((JTextArea) this.components[2].component).getText();
-
             //Print out only this item
-            printOutOrError(part, 0);
+            printOutOrError(0);
 
         } else if (obj.equals(this.components[4].component)) {
-            //Get key
-            String part = ((JTextArea) this.components[2].component).getText();
-
+            
             //Print out this and the next 10 items
-            printOutOrError(part, 10);
+            printOutOrError(10);
         }
     }
 
-    private void printOutOrError(String key, int xAfter) {
+    private void printOutOrError(int xAfter) {
+        //Get key
+        //Since there is only 1 element, we grab it from the returned array instantly.
+        String key = getStringsOfTextAreas(2)[0];
+
         //Get the pair at the current location (null if not found)
         ArrayList<String> keyAndNextX = tree.searchAndNextX(key, xAfter);
         

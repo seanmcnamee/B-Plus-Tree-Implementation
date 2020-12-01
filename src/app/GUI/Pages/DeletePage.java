@@ -23,7 +23,6 @@ public class DeletePage extends GUIPage {
 
     @Override
     public VariableComponent[] createComponents() {
-        String newLine = ("Display the Next \n 10 Parts");
         VariableComponent[] components = {
                 new VariableComponent(new JLabel("Deleting Part", SwingConstants.CENTER), .5, .1, 1, .2),
                 new VariableComponent(new JLabel("<HTML><U>Enter Part Number:</U></HTML>"), .13, .3, .23, .10), // Underlines text
@@ -50,12 +49,6 @@ public class DeletePage extends GUIPage {
 
     @Override
     public void actionPerformed(Object obj, GUI main) {
-        /*
-         * if (obj.equals(this.components[1].component)) {
-         * prepareAndSwitchToPage(App.ADD_DATA, main); } // else
-         * if(obj.equals(this.components[2].component)) {
-         * prepareAndSwitchToPage(App.VIEW_DATA, main);
-         */
         if (obj.equals(this.components[this.components.length - 1].component)) {// function that performs the actions
                                                                                 // when button is clicked
             System.out.println("Back to menu page");
@@ -63,16 +56,17 @@ public class DeletePage extends GUIPage {
         } else if (obj.equals(this.components[3].component)) {
 
             // Get the key from the textarea
-            String part = ((JTextArea) this.components[2].component).getText();
+            //Since there is only 1 element, we grab it from the returned array instantly.
+            String part = getStringsOfTextAreas(2)[0];
 
             // Delete the part
             boolean success = tree.delete(part);
 
             if (success) {
                 // Clear the textarea to show completion
-                ((JTextArea) this.components[2].component).setText("");
+                clearAllJTextAreas();
             } else {
-                ((JLabel) this.components[4].component).setText(NOT_FOUND);
+                setStringOfLabels(NOT_FOUND, 4);
             }
             
         }
@@ -80,6 +74,6 @@ public class DeletePage extends GUIPage {
     }
 
     public void reloadLabels() {
-        ((JLabel) this.components[4].component).setText("");
+        setStringOfLabels("", 4);
     }
 }

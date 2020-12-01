@@ -5,9 +5,6 @@ import java.awt.Toolkit;
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
-import app.backend.tree.Tree;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,10 +12,9 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.WindowListener;
 import java.awt.event.WindowEvent;
-import java.util.*;
 
 /**
- * GUI
+ * GUI. Uses the GUIPage class to switch between the JPanel that should be displayed.
  */
 public class GUI implements ComponentListener, ActionListener {
     public JFrame frame;
@@ -131,6 +127,9 @@ public class GUI implements ComponentListener, ActionListener {
         }
     }
 
+    /**
+     * Uses ratios to resize all the components according to the gamescale.
+     */
     @Override
     public void componentResized(ComponentEvent e) {
         System.out.println("Resizing...");
@@ -150,15 +149,14 @@ public class GUI implements ComponentListener, ActionListener {
         // Use for all components
         double pixelWidth = gameScale * WIDTH_AT_SCALE_1;
         double pixelHeight = gameScale * HEIGHT_AT_SCALE_1;
-        // System.out.println(pixelWidth);
 
-        // This will force everything to be in scale with the window. (unproportional
-        // width or height will result in the margins)
+        // This will force everything to be in scale with the window. 
+        //(unproportional width or height will result in the margins)
         double excessWidth = frame.getContentPane().getWidth() - pixelWidth;
         double excessHeight = frame.getContentPane().getHeight() - pixelHeight;
         double xStart = excessWidth / 2.0;
         double yStart = excessHeight / 2.0;
-        // YO
+        
         // Update each component in the page
         this.currentPage.setComponentSizeAndLocation(pixelWidth, pixelHeight, xStart, yStart);
     }

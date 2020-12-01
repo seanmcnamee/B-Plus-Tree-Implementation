@@ -17,10 +17,6 @@ import app.backend.tree.Tree;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
-import java.awt.event.WindowEvent;
-
-import javax.swing.JOptionPane; // for the save/exit part 
 
 public class MenuPage extends GUIPage {
 
@@ -79,12 +75,15 @@ public class MenuPage extends GUIPage {
         if (obj.equals(this.components[1].component)) { // function that performs the actions when button is clicked
             prepareAndSwitchToPage(App.VIEW_DATA, main);
         }   else if(obj.equals(this.components[2].component)) {
+            //To the Adding Page. (Resets Labels)
             AddPage addPage = (AddPage)(prepareAndSwitchToPage(App.ADD_DATA, main));
             addPage.reloadLabels();
         }   else if(obj.equals(this.components[3].component)) {
+            //To the Deleting Page. (Resets Labels)
             DeletePage deletePage = (DeletePage)(prepareAndSwitchToPage(App.DELETE_DATA, main));
             deletePage.reloadLabels();
         } else if(obj.equals(this.components[4].component)) {
+            //To the Closing Page. (Resets Labels so that counts are the newest)
             ClosingPage closingPage = (ClosingPage)(prepareAndSwitchToPage(App.CLOSING_DATA, main));
             closingPage.reloadLabels();
            

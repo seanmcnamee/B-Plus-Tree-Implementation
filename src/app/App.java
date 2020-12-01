@@ -13,25 +13,28 @@ import app.backend.tree.Tree;
 
 public class App {
 
+    //Used for switching between pages.
     public static int MENU = 0, ADD_DATA = 1, VIEW_DATA = 2, DELETE_DATA = 3, CLOSING_DATA = 4;
 
     public static void main(String[] args) throws Exception {
+        //Create the tree. Holds max of 4 keys internally, and max of 16 KeyValues at the leaves.
         Tree tree = new Tree(4, 16);
-        FileAccess file = new FileAccess("src//app//res//partfile.txt");
 
+        //Fill the tree from the file provided.
+        FileAccess file = new FileAccess("src//app//res//partfile.txt");
         file.fillTreeFromFile(tree);
 
+        //Create the GUI with the following pages
         GUI g = new GUI(new MenuPage(tree), new AddPage(tree), new ViewDataMenuPage(tree), new DeletePage(tree),
                 new ClosingPage(tree, file));
         System.out.println("Hello Java");
-        g.start();
 
-        // testTree();
-        // testAppend();
-        // testLeafNode();
-        // testFileAccess();
+        //Start the GUI
+        g.start();
     }
 
+
+    //All of the following classes were for our unit testing. Success was based on lack of errors/console output.
     private static void testFileAccess() {
         FileAccess file = new FileAccess("src//app//res//partfile.txt");
         Tree tree = new Tree(4, 16);
@@ -107,15 +110,12 @@ public class App {
 
     }
 
-    public static void testAppend() {
+    private static void testAppend() {
         KeyValue d1 = new KeyValue("d", "fdaf");
         KeyValue d2 = new KeyValue("c", "fdaf");
         KeyValue d3 = new KeyValue("e", "fdaf");
         KeyValue d4 = new KeyValue("a", "fdaf");
         KeyValue d5 = new KeyValue("ba", "fdaf");
-        KeyValue d6 = new KeyValue("bd", "fdaf");
-        KeyValue d7 = new KeyValue("ad", "fdaf");
-        KeyValue d8 = new KeyValue("af", "fdaf");
         LeafNode node = new LeafNode(5);
         node.addData(d1);
         node.addData(d2);

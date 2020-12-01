@@ -1,6 +1,5 @@
 package app.GUI.Pages;
 
-import app.App;
 import app.GUI.GUI;
 import app.GUI.GUIPage;
 import app.backend.fileaccess.FileAccess;
@@ -11,11 +10,8 @@ import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import java.awt.event.WindowEvent;
-import java.util.*;
-import javax.swing.JFrame;
 
 public class ClosingPage extends GUIPage {
     private FileAccess file;
@@ -60,10 +56,10 @@ public class ClosingPage extends GUIPage {
     }
 
     public void reloadLabels() {
-        ((JLabel) this.components[3].component).setText("Splits: " + tree.getSplits());
-        ((JLabel) this.components[4].component).setText("Parent Splits: " + tree.getParentSplits());
-        ((JLabel) this.components[5].component).setText("Fusions: " + tree.getFuses());
-        ((JLabel) this.components[6].component).setText("Parent Fusions: " + tree.getParentFuses());
+        setStringOfLabels("Splits: " + tree.getSplits(), 3);
+        setStringOfLabels("Parent Splits: " + tree.getParentSplits(), 4);
+        setStringOfLabels("Fusions: " + tree.getFuses(), 5);
+        setStringOfLabels("Parent Fusions: " + tree.getParentFuses(), 6);
     }
 
 }
