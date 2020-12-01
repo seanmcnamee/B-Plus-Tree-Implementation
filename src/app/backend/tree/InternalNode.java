@@ -1,7 +1,8 @@
 package app.backend.tree;
 
 /**
- * InternalNode
+ * This repreasents any nodes that are not at the bottom of the tree. 
+ * They store String values in their array that act like keys to quickly search.
  */
 public class InternalNode extends Node {
 
@@ -15,7 +16,8 @@ public class InternalNode extends Node {
     }
 
     public InternalNode(int dataSize, Object... dataArr) {
-        super(dataSize, dataArr);
+        this(dataSize);
+        replaceData(dataArr);
     }
 
     @Override

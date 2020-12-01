@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import app.backend.fileaccess.KeyValue;
 
+/**
+ * The B+Tree utilizes search, insert, and delete. 
+ * Can also get the counts for all the splits and get the nextX values when searching.
+ */
 public class Tree {
     public Node root;
     private final int keysPerInternalNode, keysPerLeafNode;
@@ -49,6 +53,11 @@ public class Tree {
         }
     }
 
+    /**
+     * @param key the string we're searching for
+     * @param count the number of values to include after the key
+     * @return The node that should contain that string as a key
+     */
     public ArrayList<String> searchAndNextX(String key, int count) {
         ArrayList<String> nextX = new ArrayList<String>();
         // Find it in the tree
@@ -74,6 +83,11 @@ public class Tree {
         return nextX;
     }
 
+    /**
+     * Will add the pair to the array. Note that to prevent duplication,
+     * a check must be done before calling this
+     * @param pair The KeyValue to add into the tree
+     */
     public void insert(KeyValue pair) {
         Node nodeToAddTo = search(pair.getKey());
         if (nodeToAddTo == null) { // The only case that this happens is if there is no root
@@ -89,6 +103,7 @@ public class Tree {
      * 
      * @param node the node to add the data to
      * @param data the KeyValue pair or String to be added
+     * @param isParentSplit whether totalParentSplits should be incremented
      */
     private void addDataOrSplit(Node node, Object data, boolean isParentSplit) {
         node.addData(data);
@@ -149,15 +164,15 @@ public class Tree {
      * to the newNode. It as well sets newnode's child pointer to be the first child
      * whose pointer is changed.
      * 
-     * @param oldEntirePArent
+     * @param oldEntireParent
      * @param newJustHigherParent
      * @param mid
      */
-    private void restructureChildPointers(Node oldEntirePArent, Node newJustHigherParent, int mid) {
+    private void restructureChildPointers(Node oldEntireParent, Node newJustHigherParent, int mid) {
         // All of the connections are still pointing to the base node (lower half).
         // Let's go through and make it so the higher half is pointer to this new node.
-        Node childNode = oldEntirePArent.getChildNode();
-        for (int i = 0; i <= oldEntirePArent.getSize(); i++) { // Loop through all the children
+        Node childNode = oldEntireParent.getChildNode();
+        for (int i = 0; i <= oldEntireParent.getSize(); i++) { // Loop through all the children
             if (i > mid) {
                 if (i == mid + 1) { // The first one in the higher half is the child
                     newJustHigherParent.setChildNode(childNode);
@@ -178,6 +193,11 @@ public class Tree {
         return parentNode;
     }
 
+    /**
+     * Will delete the KeyValue pair in the LeafNode with the provided key
+     * @param key allows for searching the KeyValue to delete.
+     * @return whether this method was successful. True it successful. False otherwise.
+     */
     public boolean delete(String key) {
         Node nodeToAddTo = search(key);
         if (nodeToAddTo == null || nodeToAddTo.getIndexOf(key) == -1) { // The only case that this happens is if there is no root
@@ -189,6 +209,14 @@ public class Tree {
         }
     }
 
+    
+    /**
+     * Remove the data to the given node, and fuse if needed.
+     * 
+     * @param node the node to remove the data from
+     * @param key allows for searching the KeyValue to delete.
+     * @param isParentFuse whether totalParentFuses should be incremented
+     */
     private void removeDataOrFuse(Node node, String key, boolean isParentFuse) {
         System.out.println("Removing " + key + " from " + node);
         node.removeData(key);
@@ -252,6 +280,12 @@ public class Tree {
 
     }
 
+    /**
+     * Loop using the parent to get the previous sibling.
+     * @param base the current sibling
+     * @return the sibling to base's left. Null if it has no smaller sibling.
+     * Note that this will return null even if there is a smaller cousin.
+     */
     private Node getPreviousSibling(Node base) {
         Node parent = base.getParent();
         Node currentChild = parent.getChildNode();
@@ -261,6 +295,12 @@ public class Tree {
         return currentChild;
     }
 
+    /**
+     * Get the key that the parent holds that helps searching get to this node.
+     * Note that calling this for the root will return null
+     * @param base the current nodes
+     * @return the key
+     */
     private String getKeyForNode(Node base) {
         Node parent = base.getParent();
         Node currentChild = parent.getChildNode();
@@ -296,6 +336,11 @@ public class Tree {
         return getFirst(this.root);
     }
 
+    /**
+     * Continuously follows the firstChild until it reaches a leaf.
+     * @param current used for recursion. Should be initially called with the root.
+     * @return The smallest (leftmost) LeafNode in the tree.
+     */
     private Node getFirst(Node current) {
         if (current.hasChildNode()) {
             return getFirst(current.getChildNode());

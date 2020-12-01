@@ -1,6 +1,9 @@
 package app.backend.tree;
 
 import app.backend.fileaccess.KeyValue;
+/**
+ * This repreasents the deepest nodes of the tree. They store KeyValue objects in their array.
+ */
 public class LeafNode extends Node {
     
 
@@ -14,9 +17,9 @@ public class LeafNode extends Node {
     }
 
     public LeafNode(int dataSize, Object... dataArr) {
-        super(dataSize, dataArr);
+        this(dataSize);
+        replaceData(dataArr);
     }
-
 
     @Override
     public String keyFromObject(Object o) {
@@ -24,6 +27,7 @@ public class LeafNode extends Node {
         return ((KeyValue) o).getKey();
     }
 
+    @Override
     public Object[] getArray(int start, int end) {
         return new KeyValue[end-start+1];
     }
