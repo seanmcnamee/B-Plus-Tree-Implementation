@@ -21,7 +21,7 @@ public class App {
         Tree tree = new Tree(4, 16);
 
         //Fill the tree from the file provided.
-        FileAccess file = new FileAccess("src//app//res//partfile.txt");
+        FileAccess file = new FileAccess("res//partfile.txt"); //src//app//
         file.fillTreeFromFile(tree);
 
         //Create the GUI with the following pages

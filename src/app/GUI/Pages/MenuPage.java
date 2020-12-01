@@ -29,7 +29,7 @@ public class MenuPage extends GUIPage {
     public BufferedImage loadImage() {
         BufferedImage img = null;
         try {
-            img = ImageIO.read(new File("src//app//res//logo.png"));
+            img = ImageIO.read(new File("res//logo.png")); //src//app//
         } catch (IOException e) {
             
             e.printStackTrace();
