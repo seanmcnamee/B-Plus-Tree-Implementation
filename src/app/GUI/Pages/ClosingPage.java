@@ -32,7 +32,8 @@ public class ClosingPage extends GUIPage {
                 new VariableComponent(new JLabel(), .5, .75, .25, .15),
                 new VariableComponent(new JLabel(), .5, .8, .25, .15),
                 new VariableComponent(new JLabel(), .5, .85, .25, .15),
-                new VariableComponent(new JLabel(), .5, .9, .25, .15) };
+                new VariableComponent(new JLabel(), .5, .9, .25, .15),
+                new VariableComponent(new JLabel(), .5, .95, .25, .15) };
 
         this.setBackgroundAndTextOfComponentsInRange(components, 0, 0, Color.BLUE, Color.WHITE);
         this.setBackgroundAndTextOfComponentsInRange(components, 1, 1, Color.GREEN, Color.BLACK);
@@ -61,6 +62,7 @@ public class ClosingPage extends GUIPage {
         setStringOfLabels("Parent Splits: " + tree.getParentSplits(), 4);
         setStringOfLabels("Fusions: " + tree.getFuses(), 5);
         setStringOfLabels("Parent Fusions: " + tree.getParentFuses(), 6);
+        setStringOfLabels("Tree Depth: " + tree.getDepth(), 7);
     }
 
 }

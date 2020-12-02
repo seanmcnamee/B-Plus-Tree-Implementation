@@ -348,6 +348,24 @@ public class Tree {
         return current;
     }
 
+    /**
+     * Get the depth of the tree. Note that the root has depth 0
+     */
+    public int getDepth() {
+        return getDepth(this.root, 0);
+    }
+
+    /**
+     * Increments the depth until reaching a root node.
+     */
+    private int getDepth(Node current, int depth) {
+        if (current != null && current.hasChildNode()) {
+            return getDepth(current.getChildNode(), depth+1);
+        } else {
+            return depth;
+        }
+    }
+
     public void printPreOrder() {
         System.out.println();
         if (root != null) {
