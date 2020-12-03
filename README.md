@@ -1,6 +1,6 @@
 Welcome!
 
-To run the program, simply click on tree.jar! Note that the resource folder must me in the same directory as tree.jar in order for the program to work. Therefore, if you move tree.jar, you must also move the res folder.
+To run the program, simply click on tree.jar! Note that the resource folder must me in the same directory as tree.jar in order for the program to work. Therefore, if you move tree.jar, you must also move the res folder. Another note is that you need the Java Runtime Environment 8 or higher to run the file
 
 Going into the "res" folder, you will find two files. One of the files is the part file that was given to us that we are supposed to use in our program. The second file is the image file used on the main menu in our program (NYIT logo).
 
