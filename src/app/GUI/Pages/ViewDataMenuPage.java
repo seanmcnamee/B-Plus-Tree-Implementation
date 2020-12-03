@@ -85,14 +85,19 @@ public class ViewDataMenuPage extends GUIPage {
             }
 
             // Print the value to the user
-            ((JLabel) this.components[5].component).setText("<html>" + output.replaceAll("\\n", "<br>") + "</html>");
+            setStringOfLabels("<html>" + output.replaceAll("\\n", "<br>") + "</html>", 5);
 
             // Clear their textarea input
-            ((JTextArea) this.components[2].component).setText("");
+            clearAllJTextAreas();
         } else {
             //Tell the user there's an error
-            ((JLabel) this.components[5].component).setText(NOT_FOUND);
+            setStringOfLabels(NOT_FOUND, 5);
         }
+    }
+
+    public void reloadLabels() {
+        System.out.println("Setting view to blank");
+        setStringOfLabels("", 5);
     }
 
 }

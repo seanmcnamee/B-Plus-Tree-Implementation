@@ -73,6 +73,7 @@ public class AddPage extends GUIPage {
     
                 // Empty textareas to show that it was accepted
                 clearAllJTextAreas();
+                reloadLabels();
             } else {
                 //Tell the user that it already exists.
                 setStringOfLabels(ALREADY_EXISTS, 6);
@@ -81,6 +82,7 @@ public class AddPage extends GUIPage {
     }
 
     public void reloadLabels() {
+        System.out.println("Setting add to blank");
         setStringOfLabels("", 6);
     }
 }

@@ -65,10 +65,10 @@ public class DeletePage extends GUIPage {
             if (success) {
                 // Clear the textarea to show completion
                 clearAllJTextAreas();
+                reloadLabels();
             } else {
                 setStringOfLabels(NOT_FOUND, 4);
             }
-            
         }
 
     }

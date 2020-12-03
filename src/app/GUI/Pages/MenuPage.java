@@ -73,7 +73,9 @@ public class MenuPage extends GUIPage {
     public void actionPerformed(Object obj, GUI main) {
         
         if (obj.equals(this.components[1].component)) { // function that performs the actions when button is clicked
-            prepareAndSwitchToPage(App.VIEW_DATA, main);
+            ViewDataMenuPage viewPage = (ViewDataMenuPage) prepareAndSwitchToPage(App.VIEW_DATA, main);
+            viewPage.reloadLabels();
+
         }   else if(obj.equals(this.components[2].component)) {
             //To the Adding Page. (Resets Labels)
             AddPage addPage = (AddPage)(prepareAndSwitchToPage(App.ADD_DATA, main));
